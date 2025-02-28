@@ -29,7 +29,7 @@ namespace DotnetReactShop.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Product> Get(int id)
+        public ActionResult<Product> GetById(int id)
         {
             var product = Products.FirstOrDefault(p => p.Id == id);
             if (product == null) 
@@ -42,14 +42,14 @@ namespace DotnetReactShop.Controllers
         {
             newProduct.Id = Products.Any() ? Products.Max(p => p.Id) + 1 : 1;
             Products.Add(newProduct);
-            return CreatedAtAction(nameof(Get), new { id = newProduct.Id }, newProduct); // returns 201 created response. + location header.
+            return CreatedAtAction(nameof(GetById), new { id = newProduct.Id }, newProduct); // returns 201 created response. + location header.
             // nameof(Get) refers to get method that retrieves product by id.
             // new { id = newProduct.Id } supplies the route values for that action.
             // newProduct is the returned object. 
         }
 
         [HttpPut("{id}")] 
-        public ActionResult<Product> Put(int id, Product updatedProduct) 
+        public IActionResult Put(int id, Product updatedProduct) 
         {
             var product = Products.FirstOrDefault(p => p.Id == id);
             if (product == null)  
@@ -61,6 +61,17 @@ namespace DotnetReactShop.Controllers
             product.ImageUrl = updatedProduct.ImageUrl;
 
             return NoContent(); // 204 success but no content to send in response body.
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var product = Products.FirstOrDefault(p => p.Id == id);
+            if (product == null)
+                return NotFound();
+
+            Products.Remove(product);
+            return NoContent();
         }
     }
 }
