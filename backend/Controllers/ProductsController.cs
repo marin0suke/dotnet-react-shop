@@ -37,6 +37,15 @@ namespace DotnetReactShop.Controllers
             return Ok(product);
         }
 
-        
+        [HttpPost]
+        public ActionResult<Product> Post(Product newProduct)
+        {
+            newProduct.Id = Products.Any() ? Products.Max(p => p.Id) + 1 : 1;
+            Products.Add(newProduct);
+            return CreatedAtAction(nameof(Get), new { id = newProduct.Id }, newProduct); // returns 201 created response. + location header.
+            // nameof(Get) refers to get method that retrieves product by id.
+            // new { id = newProduct.Id } supplies the route values for that action.
+            // newProduct is the returned object. 
+        }
     }
 }
