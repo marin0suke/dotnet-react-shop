@@ -27,5 +27,16 @@ namespace DotnetReactShop.Controllers
         {
             return Ok(Products);
         }
+
+        [HttpGet("{id}")]
+        public ActionResult<Product> Get(int id)
+        {
+            var product = Products.FirstOrDefault(p => p.Id == id);
+            if (product == null) 
+                return NotFound();
+            return Ok(product);
+        }
+
+        
     }
 }
