@@ -1,3 +1,11 @@
+/Users/marinamonk/repos/dotnet-react-shop/backend/obj/Debug/net8.0/backend.csproj.AssemblyReference.cache
+/Users/marinamonk/repos/dotnet-react-shop/backend/obj/Debug/net8.0/backend.GeneratedMSBuildEditorConfig.editorconfig
+/Users/marinamonk/repos/dotnet-react-shop/backend/obj/Debug/net8.0/backend.AssemblyInfoInputs.cache
+/Users/marinamonk/repos/dotnet-react-shop/backend/obj/Debug/net8.0/backend.AssemblyInfo.cs
+/Users/marinamonk/repos/dotnet-react-shop/backend/obj/Debug/net8.0/backend.csproj.CoreCompileInputs.cache
+/Users/marinamonk/repos/dotnet-react-shop/backend/obj/Debug/net8.0/backend.MvcApplicationPartsAssemblyInfo.cs
+/Users/marinamonk/repos/dotnet-react-shop/backend/obj/Debug/net8.0/backend.MvcApplicationPartsAssemblyInfo.cache
+/Users/marinamonk/repos/dotnet-react-shop/backend/obj/Debug/net8.0/backend.sourcelink.json
 /Users/marinamonk/repos/dotnet-react-shop/backend/bin/Debug/net8.0/appsettings.Development.json
 /Users/marinamonk/repos/dotnet-react-shop/backend/bin/Debug/net8.0/appsettings.json
 /Users/marinamonk/repos/dotnet-react-shop/backend/bin/Debug/net8.0/backend
@@ -10,14 +18,6 @@
 /Users/marinamonk/repos/dotnet-react-shop/backend/bin/Debug/net8.0/Swashbuckle.AspNetCore.Swagger.dll
 /Users/marinamonk/repos/dotnet-react-shop/backend/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerGen.dll
 /Users/marinamonk/repos/dotnet-react-shop/backend/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerUI.dll
-/Users/marinamonk/repos/dotnet-react-shop/backend/obj/Debug/net8.0/backend.csproj.AssemblyReference.cache
-/Users/marinamonk/repos/dotnet-react-shop/backend/obj/Debug/net8.0/backend.GeneratedMSBuildEditorConfig.editorconfig
-/Users/marinamonk/repos/dotnet-react-shop/backend/obj/Debug/net8.0/backend.AssemblyInfoInputs.cache
-/Users/marinamonk/repos/dotnet-react-shop/backend/obj/Debug/net8.0/backend.AssemblyInfo.cs
-/Users/marinamonk/repos/dotnet-react-shop/backend/obj/Debug/net8.0/backend.csproj.CoreCompileInputs.cache
-/Users/marinamonk/repos/dotnet-react-shop/backend/obj/Debug/net8.0/backend.MvcApplicationPartsAssemblyInfo.cs
-/Users/marinamonk/repos/dotnet-react-shop/backend/obj/Debug/net8.0/backend.MvcApplicationPartsAssemblyInfo.cache
-/Users/marinamonk/repos/dotnet-react-shop/backend/obj/Debug/net8.0/backend.sourcelink.json
 /Users/marinamonk/repos/dotnet-react-shop/backend/obj/Debug/net8.0/staticwebassets.build.json
 /Users/marinamonk/repos/dotnet-react-shop/backend/obj/Debug/net8.0/staticwebassets.development.json
 /Users/marinamonk/repos/dotnet-react-shop/backend/obj/Debug/net8.0/staticwebassets/msbuild.backend.Microsoft.AspNetCore.StaticWebAssets.props

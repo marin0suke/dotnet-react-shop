@@ -1,26 +1,31 @@
 using Microsoft.AspNetCore.Mvc;
 using DotnetReactShop.Models;
- 
+using System.Collections.Generic; 
+using System.Linq;
+
 namespace DotnetReactShop.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
-        // a sample GET endpoint
-        [HttpGet]
-        public IActionResult Get()
+        // static list to sim a data store.
+        private static readonly List<Product> Products = new List<Product>
         {
-            var sampleProduct = new Product
-            {
+            new Product {
                 Id = 1,
                 Name = "Sample Product",
                 Description = "This is a sample prod",
                 Price = 9.99m,
-                ImageUrl = ""
-            };
+                ImageUrl = "https://via.placeholder.com/600x400"
+            }
+        };
 
-            return Ok(new[] { sampleProduct });
+        // get api/products
+        [HttpGet]
+        public ActionResult<IEnumerable<Product>> Get()
+        {
+            return Ok(Products);
         }
     }
 }
