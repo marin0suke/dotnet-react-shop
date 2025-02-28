@@ -47,5 +47,20 @@ namespace DotnetReactShop.Controllers
             // new { id = newProduct.Id } supplies the route values for that action.
             // newProduct is the returned object. 
         }
+
+        [HttpPut("{id}")] 
+        public ActionResult<Product> Put(int id, Product updatedProduct) 
+        {
+            var product = Products.FirstOrDefault(p => p.Id == id);
+            if (product == null)  
+                return NotFound();
+            
+            product.Name = updatedProduct.Name;
+            product.Description = updatedProduct.Description;
+            product.Price = updatedProduct.Price;
+            product.ImageUrl = updatedProduct.ImageUrl;
+
+            return NoContent(); // 204 success but no content to send in response body.
+        }
     }
 }
