@@ -12,3 +12,6 @@ namespace DotnetReactShop.Services
         Task DeleteProductAsync(int id);
     }
 }
+
+// defines higher level operations on Products.
+// might later include more business logic, validations, or combine data from multiple sources. 
