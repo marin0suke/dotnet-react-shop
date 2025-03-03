@@ -1,11 +1,23 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Link, Navigate } from 'react-router-dom';
+import ProductList from './components/ProductsList';
+
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<h1>Hello World</h1>} />
-    </Routes>
+    <div>
+      <header>
+        <h1>.NET React Store</h1>
+        <nav>
+          <Link to='/products'>Products</Link>
+        </nav>
+      </header>
+      <Routes>
+        <Route path="/" element={<Navigate to="/products" />} />
+        <Route path='/products' element={<ProductList />} />
+      </Routes>
+    </div>
+    
   )
 }
 
-export default App
+export default App;

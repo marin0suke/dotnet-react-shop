@@ -1,6 +1,7 @@
 using DotnetReactShop.Data;
 using DotnetReactShop.Repositories;
 using DotnetReactShop.Services;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,16 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllers();
 
+builder.Services.AddCors(options => // added CORS so backend allows cross-origin requests. got errors after adding routes and connecting front to back.
+{
+    options.AddPolicy("AllowReactApp", builder =>
+    {
+        policyBuilder.WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 //register the repository and service.
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -22,6 +33,8 @@ builder.Services.AddScoped<IProductService, ProductService>();
 // builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseCors("AllowReactApp"); // enable before other middleware (like auth).
 
 using (var scope = app.Services.CreateScope())
 {
