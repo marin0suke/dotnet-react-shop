@@ -1,5 +1,6 @@
 import { Routes, Route, Link, Navigate } from 'react-router-dom';
 import ProductList from './components/ProductsList';
+import ProductPage from './components/ProductPage';
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/products" />} />
         <Route path='/products' element={<ProductList />} />
+        <Route path='/products/:id' element={<ProductPage />} />
       </Routes>
     </div>
     

@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import api from "../api";
+import { Link } from "react-router-dom";
+
 
 export interface Product { 
     id: number;
@@ -36,7 +38,9 @@ const ProductList = () => {
             <ul>
                 {products.map(product => (
                     <li key={product.id}>
-                        <h3>{product.name}</h3>
+                        <h3>
+                            <Link to={`/products/${product.id}`}>{product.name}</Link>
+                        </h3>
                         <p>{product.description}</p>
                         <p>{product.price}</p>
                         <img src={product.imageUrl} alt={product.name} width="150" />

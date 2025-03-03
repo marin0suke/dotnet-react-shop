@@ -4,7 +4,7 @@ import api from "../api";
 import { Product } from "./ProductsList";
 
 
-const ProductDetails = () => {
+const ProductPage = () => {
     const { id } = useParams<{ id: string }>(); // uses the product id for URL
     const [ product, setProduct ] = useState<Product | null>(null);
     const [ loading, setLoading ] = useState<boolean>(false);
@@ -31,4 +31,4 @@ const ProductDetails = () => {
     );
 };
 
-export default ProductDetails;
+export default ProductPage;

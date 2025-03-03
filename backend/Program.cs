@@ -19,7 +19,7 @@ builder.Services.AddCors(options => // added CORS so backend allows cross-origin
 {
     options.AddPolicy("AllowReactApp", builder =>
     {
-        policyBuilder.WithOrigins("http://localhost:5173")
+        builder.WithOrigins("http://localhost:5173")
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
