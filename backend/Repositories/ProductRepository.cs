@@ -8,7 +8,7 @@ namespace DotnetReactShop.Repositories
     {
         private readonly AppDbContext _context;
 
-        public ProductRepository(AppDbContext context)
+        public ProductRepository(AppDbContext context) // ctor injection. this repo receives an instance of AppDbContext session = dependency injection.
         {
             _context = context;
         }
