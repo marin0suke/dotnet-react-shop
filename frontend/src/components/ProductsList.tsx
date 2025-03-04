@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import api from "../api";
 import { Link } from "react-router-dom";
+import { useCart } from "../contexts/CartContext";
 
 
 export interface Product { 
@@ -15,6 +16,7 @@ const ProductList = () => {
     const [ products, setProducts ] = useState<Product[]>([]);
     const [ loading, setLoading ] = useState<boolean>(false);
     const [ error, setError ] = useState<string>('');
+    const { addToCart } = useCart(); // custom hook from cartContext.
 
     useEffect(() => {
         api.get('/products')
@@ -44,6 +46,7 @@ const ProductList = () => {
                         <p>{product.description}</p>
                         <p>{product.price}</p>
                         <img src={product.imageUrl} alt={product.name} width="150" />
+                        <button onClick={() => addToCart(product)}>Add to Cart</button>
                     </li>
                 ))}
             </ul>
