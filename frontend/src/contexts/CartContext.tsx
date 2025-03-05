@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useMemo, useState } from "react";
+import { createContext, ReactNode, useContext, useMemo, useState, useEffect } from "react";
 
 export interface Product {
     id: number;
@@ -27,6 +27,17 @@ interface CartProviderProps {
 
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => { // provider component.
     const [cart, setCart] = useState<CartItem[]>([]);
+
+    useEffect(() => {
+        const storedCart = localStorage.getItem("cart"); // 
+        if (storedCart) {
+            setCart(JSON.parse(storedCart));
+        }
+    }, []); // runs once on Provider mount. 
+
+    useEffect(() => {
+        localStorage.setItem("cart", JSON.stringify(cart));
+    }, [cart]);
 
     const addToCart = (product: Product, quantity: number = 1) => {
         setCart((prevCart) => {
