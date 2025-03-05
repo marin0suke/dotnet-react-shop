@@ -27,17 +27,23 @@ interface CartProviderProps {
 
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => { // provider component.
     const [cart, setCart] = useState<CartItem[]>([]);
+    const [isLoaded, setIsLoaded] = useState(false); // indicate cart load. to avoid effect clash.
 
     useEffect(() => {
         const storedCart = localStorage.getItem("cart"); // 
+        console.log("Loading cart from localStorage:", storedCart);
         if (storedCart) {
             setCart(JSON.parse(storedCart));
         }
-    }, []); // runs once on Provider mount. 
+        setIsLoaded(true);
+    }, []); // runs once on Provider mount. this must run first before saving items to localStorage.
 
     useEffect(() => {
-        localStorage.setItem("cart", JSON.stringify(cart));
-    }, [cart]);
+        console.log("Saving cart to localStorage:", cart);
+        if (isLoaded) {
+            localStorage.setItem("cart", JSON.stringify(cart));
+        }
+    }, [cart, isLoaded]); // writes cart to state each time it changes.
 
     const addToCart = (product: Product, quantity: number = 1) => {
         setCart((prevCart) => {
