@@ -61,6 +61,7 @@ builder.Services.AddCors(options => // added CORS so backend allows cross-origin
 //register the repository and service.
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 // builder.Services.AddEndpointsApiExplorer(); // do i need these?
 // builder.Services.AddSwaggerGen();
