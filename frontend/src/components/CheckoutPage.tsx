@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { useCart } from "../contexts/CartContext";
+import LoginForm from "./LoginForm";
 
 
 
@@ -17,6 +18,18 @@ const CheckoutPage = () => {
     });
 
     const [orderSubmitted, setOrderSubmitted] = useState(false); 
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        return (
+            <div>
+                <h2>Checkout</h2>
+                <p>You must be logged in to process with checkout.</p>
+                <LoginForm />
+            </div>
+        );
+    }
 
     // handle changes to the shipping form inputs:
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,7 +48,7 @@ const CheckoutPage = () => {
     }
 
     if (orderSubmitted) {
-        return <div>Thank you for your order</div>;
+        return <div>Thank you for your order!</div>;
     }
 
     return (

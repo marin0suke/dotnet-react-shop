@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../api";
 
 
 const LoginForm: React.FC = () => { 
@@ -14,7 +14,7 @@ const LoginForm: React.FC = () => {
         e.preventDefault(); 
 
         try {
-            const response = await axios.post("http://localhost:5000/api/auth/login", { email, password }); // 
+            const response = await api.post("/auth/login", { email, password }); // 
             const token = response.data.token;
             localStorage.setItem("token", token); // stores token under the key "token".
             navigate("/products");
