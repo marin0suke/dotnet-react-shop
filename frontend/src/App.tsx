@@ -3,6 +3,8 @@ import ProductList from './components/ProductsList';
 import ProductPage from './components/ProductPage';
 import CartDisplay from './components/CartDisplay';
 import CheckoutPage from './components/CheckoutPage';
+import LoginForm from './components/LoginForm';
+import RegisterForm from './components/RegisterForm';
 
 
 function App() {
@@ -23,6 +25,8 @@ function App() {
           <Route path='/products/:id' element={<ProductPage />} />
           <Route path='/cart' element={<CartDisplay />} />
           <Route path='/checkout' element={<CheckoutPage />}/>
+          <Route path='/login' element={<LoginForm />}/>
+          <Route path='/register' element={<RegisterForm />}/>
         </Routes>
       </main>
     </div>

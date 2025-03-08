@@ -58,10 +58,11 @@ builder.Services.AddCors(options => // added CORS so backend allows cross-origin
     });
 });
 
-//register the repository and service.
+//register the repository and service. tells DI container to inject Service when interface is requested.
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>(); 
 
 // builder.Services.AddEndpointsApiExplorer(); // do i need these?
 // builder.Services.AddSwaggerGen();

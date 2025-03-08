@@ -136,3 +136,7 @@
 /Users/marinamonk/repos/dotnet-react-shop/backend/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 /Users/marinamonk/repos/dotnet-react-shop/backend/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
 /Users/marinamonk/repos/dotnet-react-shop/backend/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll
+/Users/marinamonk/repos/dotnet-react-shop/backend/bin/Debug/net8.0/Newtonsoft.Json.dll
+/Users/marinamonk/repos/dotnet-react-shop/backend/bin/Debug/net8.0/Stripe.net.dll
+/Users/marinamonk/repos/dotnet-react-shop/backend/bin/Debug/net8.0/System.Configuration.ConfigurationManager.dll
+/Users/marinamonk/repos/dotnet-react-shop/backend/bin/Debug/net8.0/System.Security.Cryptography.ProtectedData.dll
