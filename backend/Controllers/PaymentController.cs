@@ -16,7 +16,7 @@ namespace DotnetReactShop.Controllers
         }
 
         [HttpPost("create-checkout-session")]
-        public async Task<IActionResult> CreateCheckoutSession([FromBody] CheckoutSessionCreateModel model)
+        public async Task<IActionResult> CreateCheckoutSession([FromBody] CheckoutSessionCreateModelDto model)
         {
             var sessionId = await _paymentService.CreateCheckoutSessionAsync(model); // delegate to service to create session.
             return Ok(new { sessionId }); // returns the id.

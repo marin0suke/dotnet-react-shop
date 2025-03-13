@@ -13,10 +13,10 @@ namespace DotnetReactShop.Services
             _configuration = configuration;
         }
 
-        public async Task<string> CreateCheckoutSessionAsync(CheckoutSessionCreateModel model)
+        public async Task<string> CreateCheckoutSessionAsync(CheckoutSessionCreateModelDto model)
         {
             Stripe.StripeConfiguration.ApiKey = _configuration.GetValue<string>("Stripe:SecretKey");
-            
+
             var options = new SessionCreateOptions
             {
                 PaymentMethodTypes = new List<string> { "card" },
