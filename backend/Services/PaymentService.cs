@@ -17,7 +17,7 @@ namespace DotnetReactShop.Services
         {
             Stripe.StripeConfiguration.ApiKey = _configuration.GetValue<string>("Stripe:SecretKey");
 
-            var options = new SessionCreateOptions
+            var options = new SessionCreateOptions // manual mapping? 
             {
                 PaymentMethodTypes = new List<string> { "card" },
                 Mode = "payment",
