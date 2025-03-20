@@ -1,4 +1,6 @@
 
+using System.Text.Json.Serialization;
+
 namespace DotnetReactShop.Models
 {
     public class OrderItem
@@ -6,6 +8,8 @@ namespace DotnetReactShop.Models
         public int Id { get; set; }
 
         public int OrderId { get; set; }
+        
+        [JsonIgnore]
         public Order? Order { get; set; } // foreign key to the order aggregate .. ?
 
         public int ProductId { get; set; } // snapshot data

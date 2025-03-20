@@ -28,13 +28,21 @@ namespace DotnetReactShop.Repositories
                                  .FirstOrDefaultAsync(o => o.Id == orderId);
         }
 
+        public async Task<IEnumerable<Order>> GetOrdersByUserIdAsync(string userId)
+        {
+            return await _context.Orders
+                .Where(o => o.UserId == userId)
+                .Include(o => o.OrderItems)
+                .ToListAsync();
+        }
+
         public async Task UpdateOrderAsync(Order updatedOrder)
         {
             _context.Orders.Update(updatedOrder);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteOrderByIdAsync(int orderId)
+        public async Task DeleteOrderAsync(int orderId)
         {
             var order = await _context.Orders.FindAsync(orderId); // FindAsync returns order entity.
             if (order != null) 

@@ -15,7 +15,13 @@ namespace DotnetReactShop.Services
 
         public async Task<Order> CreateOrderAsync(OrderSubmissionDto orderDto, string userId = null)
         {
-            var order = new Order // map dto to Order entity - 
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new Exception("User must be logged in to place an order");
+            }
+
+            try {
+                var order = new Order // map dto to Order entity - 
             {
                 UserId = userId,
                 ShippingName = orderDto.ShippingName,
@@ -23,19 +29,48 @@ namespace DotnetReactShop.Services
                 ShippingCity = orderDto.ShippingCity,
                 ShippingPostalCode = orderDto.ShippingPostalCode,
                 ShippingCountry = orderDto.ShippingCountry,
-                OrderItems = orderDto.OrderItems.Select(item => new OrderItem
-                {
-                    ProductId = item.ProductId,
-                    ProductName = item.ProductName,
-                    UnitPrice = item.UnitPrice,
-                    Quantity = item.Quantity
-                }).ToList()
+                OrderItems = new List<OrderItem>() // init empty list first - create empty order with Id first.
             };
 
-            order.CalculateTotal(); //update order.Total
-
             await _orderRepository.AddOrderAsync(order);
+
+            order.OrderItems = orderDto.OrderItems.Select(item => new OrderItem
+            {
+                OrderId = order.Id, // orderItems have an orderId (!)
+                ProductId = item.ProductId,
+                ProductName = item.ProductName,
+                UnitPrice = item.UnitPrice,
+                Quantity = item.Quantity
+            }).ToList();
+
+            await _orderRepository.UpdateOrderAsync(order);
             return order;
+
+            } 
+            catch (Exception ex)
+            {
+                throw new Exception($"Failed to create order: {ex.InnerException?.Message ?? ex.Message}");
+            }
+        }
+
+        public async Task<Order> GetOrderByIdAsync(int orderId)
+        {
+            return await _orderRepository.GetOrderByIdAsync(orderId);
+        }
+
+        public async Task<IEnumerable<Order>> GetOrdersByUserIdAsync(string userId)
+        {
+            return await _orderRepository.GetOrdersByUserIdAsync(userId);
+        }
+
+        public async Task UpdateOrderAsync(Order updatedOrder)
+        {
+            await _orderRepository.UpdateOrderAsync(updatedOrder);
+        }
+
+        public async Task DeleteOrderAsync(int orderId)
+        {
+            await _orderRepository.DeleteOrderAsync(orderId);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace DotnetReactShop.Models
         public int Id { get; set; } // primary key
 
         public string UserId { get; set; } // ref to user (if possible?)
-        public ApplicationUser? User { get; set; } // optional nav property
+        public ApplicationUser User { get; set; } // optional nav property
 
         public string ShippingName { get; set; }
         public string ShippingAddress { get; set; }

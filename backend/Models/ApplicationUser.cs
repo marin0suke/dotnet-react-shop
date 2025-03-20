@@ -8,3 +8,4 @@ namespace DotnetReactShop.Models
     }
 }
 
+// IdentityUser has properties defined bydefault - userId is a GUID string.

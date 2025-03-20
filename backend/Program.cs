@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text;
 using DotnetReactShop.Data;
 using DotnetReactShop.Models;
@@ -34,6 +35,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options => 
 {
+    options.SaveToken = true; // prevents re-validation every request.
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
@@ -42,7 +44,8 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = jwtSettings.GetValue<string>("Issuer"),
         ValidAudience = jwtSettings.GetValue<string>("Audience"),
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+        NameClaimType = ClaimTypes.NameIdentifier // ensures correct UserId. 
     };
 });
 
@@ -54,7 +57,8 @@ builder.Services.AddCors(options => // added CORS so backend allows cross-origin
     {
         builder.WithOrigins("http://localhost:5173")
             .AllowAnyHeader()
-            .AllowAnyMethod();
+            .AllowAnyMethod()
+            .AllowCredentials(); // allows cookies and auth headers.
     });
 });
 
@@ -73,7 +77,7 @@ var app = builder.Build();
 
 app.UseCors("AllowReactApp"); // enable before other middleware (like auth).
 
-using (var scope = app.Services.CreateScope())
+using (var scope = app.Services.CreateScope()) // good for dev but remove in production to prevent unexpected migrations.
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>(); // retrieves an instance of AppDbContext from the dependency injection container.
     db.Database.Migrate(); // applies any pending migrations to db. 
@@ -86,9 +90,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication(); // added before authorisation.
 app.UseAuthorization(); // added when ??
-
 app.MapControllers();
 
 app.Run();

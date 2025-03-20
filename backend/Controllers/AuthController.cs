@@ -3,6 +3,7 @@ using DotnetReactShop.Models;
 using DotnetReactShop.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration.UserSecrets;
 
 namespace DotnetReactShop.Controllers
 {
@@ -28,7 +29,7 @@ namespace DotnetReactShop.Controllers
             {
                 return BadRequest(result.Errors);
             }
-            return Ok("User registered successfully");
+            return Ok(new { Message = "User registered successfully", userId = user.Id});
         }
 
         [HttpPost("login")]

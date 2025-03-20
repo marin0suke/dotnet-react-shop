@@ -24,6 +24,7 @@ namespace DotnetReactShop.Services
 
             var claims = new[]
             {
+                new Claim(ClaimTypes.NameIdentifier, user.Id), // attach user id.
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email), // subject claim.
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()) // unique id.
             };
