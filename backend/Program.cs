@@ -51,6 +51,8 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddControllers();
 
+builder.Services.AddAutoMapper(typeof(MappingProfile)); 
+
 builder.Services.AddCors(options => // added CORS so backend allows cross-origin requests. got errors after adding routes and connecting front to back.
 {
     options.AddPolicy("AllowReactApp", builder =>
