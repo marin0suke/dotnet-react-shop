@@ -1,4 +1,5 @@
 
+using AutoMapper;
 using DotnetReactShop.Models;
 using DotnetReactShop.Repositories;
 
@@ -7,45 +8,31 @@ namespace DotnetReactShop.Services
     public class OrderService : IOrderService
     {
         private readonly IOrderRepository _orderRepository; // is this a dependency? this is here since OrderService is responsible for creating an instance of the repository upon order submission?
+        private readonly IMapper _mapper;
 
-        public OrderService(IOrderRepository orderRepository) // constructor of OrderService class and expected param.
+        public OrderService(IOrderRepository orderRepository, IMapper mapper) // constructor of OrderService class and expected param.
         {
             _orderRepository = orderRepository; // DI container initialises the instance of repository? and so we can just attach it to OrderService here.
+            _mapper = mapper;
         }
 
-        public async Task<Order> CreateOrderAsync(OrderSubmissionDto orderDto, string userId = null)
+        public async Task<OrderDto> CreateOrderAsync(OrderSubmissionDto orderDto, string userId = null)
         {
             if (string.IsNullOrEmpty(userId))
             {
                 throw new Exception("User must be logged in to place an order");
             }
 
-            try {
-                var order = new Order // map dto to Order entity - 
+            try 
             {
-                UserId = userId,
-                ShippingName = orderDto.ShippingName,
-                ShippingAddress = orderDto.ShippingAddress,
-                ShippingCity = orderDto.ShippingCity,
-                ShippingPostalCode = orderDto.ShippingPostalCode,
-                ShippingCountry = orderDto.ShippingCountry,
-                OrderItems = new List<OrderItem>() // init empty list first - create empty order with Id first.
-            };
+                var order = _mapper.Map<Order>(orderDto); 
+                order.UserId = userId; // manually map the UserId to the order (UserId is from JWT and we dont want it in the Submissiondto)
+                order.OrderDate = DateTime.UtcNow; // manual set instead of setting in db. db agnostic = cleaner.
 
-            await _orderRepository.AddOrderAsync(order);
+                await _orderRepository.AddOrderAsync(order); // we have the entity, create an order with it.
 
-            order.OrderItems = orderDto.OrderItems.Select(item => new OrderItem
-            {
-                OrderId = order.Id, // orderItems have an orderId (!)
-                ProductId = item.ProductId,
-                ProductName = item.ProductName,
-                UnitPrice = item.UnitPrice,
-                Quantity = item.Quantity
-            }).ToList();
-
-            await _orderRepository.UpdateOrderAsync(order);
-            return order;
-
+                var submitOrderResponse = _mapper.Map<OrderDto>(order); // map it back to return response. (returned back to frontend to display/confirm order)
+                return submitOrderResponse;
             } 
             catch (Exception ex)
             {
@@ -53,19 +40,32 @@ namespace DotnetReactShop.Services
             }
         }
 
-        public async Task<Order> GetOrderByIdAsync(int orderId)
+        public async Task<OrderDto?> GetOrderByIdAsync(int orderId)
         {
-            return await _orderRepository.GetOrderByIdAsync(orderId);
+            var order = await _orderRepository.GetOrderByIdAsync(orderId);
+            if (order == null) return null;
+
+            return _mapper.Map<OrderDto>(order);
         }
 
-        public async Task<IEnumerable<Order>> GetOrdersByUserIdAsync(string userId)
+        public async Task<IEnumerable<OrderDto>> GetOrdersByUserIdAsync(string userId)
         {
-            return await _orderRepository.GetOrdersByUserIdAsync(userId);
+            var userOrders = await _orderRepository.GetOrdersByUserIdAsync(userId);
+            return _mapper.Map<List<OrderDto>>(userOrders);
         }
 
-        public async Task UpdateOrderAsync(Order updatedOrder)
+        public async Task<OrderDto> UpdateOrderAsync(int orderId, UpdateOrderDto updatedOrderDto, string userId)
         {
-            await _orderRepository.UpdateOrderAsync(updatedOrder);
+            var existingOrder = await _orderRepository.GetOrderByIdAsync(orderId); // grab old order by id
+            if (existingOrder == null || existingOrder.UserId != userId) //validate
+            {
+                throw new Exception("Order not found or user not authorised to update this order.");
+            } 
+
+            _mapper.Map(updatedOrderDto, existingOrder); // update existing with properties from updateorderdto.
+            await _orderRepository.UpdateOrderAsync(existingOrder);
+
+            return _mapper.Map<OrderDto>(existingOrder); 
         }
 
         public async Task DeleteOrderAsync(int orderId)

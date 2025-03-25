@@ -5,11 +5,11 @@ namespace DotnetReactShop.Services
 {
     public interface IOrderService
     {
-        Task<Order> CreateOrderAsync(OrderSubmissionDto orderDto, string userId = null);
-        Task<Order> GetOrderByIdAsync(int orderId);
-        Task<IEnumerable<Order>> GetOrdersByUserIdAsync(string userId); 
+        Task<OrderDto> CreateOrderAsync(OrderSubmissionDto orderDto, string userId = null);
+        Task<OrderDto?> GetOrderByIdAsync(int orderId);
+        Task<IEnumerable<OrderDto>> GetOrdersByUserIdAsync(string userId); 
 
-        Task UpdateOrderAsync(Order updatedOrder); 
+        Task<OrderDto> UpdateOrderAsync(int orderId, UpdateOrderDto updatedOrderDto, string userId); 
         Task DeleteOrderAsync(int orderId); 
     }
 }

@@ -5,6 +5,7 @@ using DotnetReactShop.Models;
 using DotnetReactShop.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SQLitePCL;
 
 namespace DotnetReactShop.Controllers
 {
@@ -76,27 +77,28 @@ namespace DotnetReactShop.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateOrder(int id, [FromBody] Order updatedOrder)
+        public async Task<IActionResult> UpdateOrder(int id, [FromBody] UpdateOrderDto updatedOrderDto)
         {
-            if (updatedOrder == null || id != updatedOrder.Id)
+            if (updatedOrderDto == null || id != updatedOrderDto.Id)
             {
                 return BadRequest("Invalid order data");
             }
 
-            var existingOrder = await _orderService.GetOrderByIdAsync(id);
-            if (existingOrder == null)
-            {
-                return NotFound($"Order with ID {id} not found");
-            }
-
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (existingOrder.UserId != userId)
+            if (string.IsNullOrEmpty(userId))
             {
-                return Forbid(); // 403 error
+                return Unauthorized("User ID not found");
             }
 
-            await _orderService.UpdateOrderAsync(updatedOrder);
-            return NoContent(); 
+            try
+            {
+                var updatedOrder = await _orderService.UpdateOrderAsync(id, updatedOrderDto, userId);
+                return Ok(updatedOrder);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
