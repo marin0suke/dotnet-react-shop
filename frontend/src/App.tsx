@@ -5,31 +5,40 @@ import CartDisplay from './components/CartDisplay';
 import CheckoutPage from './components/CheckoutPage';
 import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
+import { ThemeProvider, CssBaseline, createTheme } from '@mui/material';
+import Header from './components/Header';
 
+
+const theme = createTheme({
+  palette: {
+    primary: { main: '#1976d2' },
+    secondary: { main: '#dc004e' },
+  },
+  typography: {
+
+  },
+});
 
 function App() {
   return (
-    <div>
-      <header>
-        <h1>.NET React Store</h1>
-        <nav>
-          <Link to='/products'>Products</Link>
-          <Link to='/cart'>Cart</Link>
-          <Link to='/checkout'>Checkout</Link>
-        </nav>
-      </header>
-      <main>
-        <Routes>
-          <Route path="*" element={<ProductList />} />
-          <Route path='/products' element={<ProductList />} />
-          <Route path='/products/:id' element={<ProductPage />} />
-          <Route path='/cart' element={<CartDisplay />} />
-          <Route path='/checkout' element={<CheckoutPage />}/>
-          <Route path='/login' element={<LoginForm />}/>
-          <Route path='/register' element={<RegisterForm />}/>
-        </Routes>
-      </main>
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+       <div>
+        <Header />
+        <main>
+          <Routes>
+            <Route path="*" element={<ProductList />} />
+            <Route path='/products' element={<ProductList />} />
+            <Route path='/products/:id' element={<ProductPage />} />
+            <Route path='/cart' element={<CartDisplay />} />
+            <Route path='/checkout' element={<CheckoutPage />}/>
+            <Route path='/login' element={<LoginForm />}/>
+            <Route path='/register' element={<RegisterForm />}/>
+          </Routes>
+        </main>
+      </div>
+    </ThemeProvider>
+   
   );
 }
 
