@@ -1,3 +1,4 @@
+import { Box, Button, Card, CardContent, CardMedia, Container, Divider, Grid2, Typography } from "@mui/material";
 import { CartItem, useCart } from "../contexts/CartContext"
 import { useNavigate } from "react-router-dom";
 
@@ -19,37 +20,51 @@ const CartDisplay = () => {
     };
 
     return (
-        <div>
-            <h2>Your Cart</h2>
-            {cart.length === 0 ? (
-                <p>Your cart is empty.</p>
-            ) : (
-                <div>
-                    <ul>
-                        {cart.map(item => (
-                            <li key={item.id}>
-                                <h3>{item.name}</h3>
-                                <p>Price: ${item.price}</p>
-                                <p>
-                                    Quantity:
-                                    <input 
-                                        type="number"
-                                        value={item.quantity}
-                                        onChange={(e) => handleQuantityChange(item, parseInt(e.target.value, 10))}
-                                    />
-                                </p>
-                                <button onClick={() => removeFromCart(item.id)}>Remove</button>
-                            </li>
-                        ))}    
-                    </ul>  
-                    <h3>Total: ${total.toFixed(2)}</h3>
-                    <button onClick={clearCart}>Clear Cart</button>  
-                    <button onClick={handleCheckout}>Proceed to Checkout</button>
-                </div>
-            )}
-        </div>
-    )
+        <Container sx={{ mt: 4 }}>
+            <Typography variant="h4" gutterBottom>
+                Your Cart
+            </Typography>
 
+            {cart.length === 0 ? (
+                <Typography variant="body1">Your cart is empty.</Typography>
+            ) : (
+                <>
+                    <Grid2 container spacing={2}>
+                        {cart.map((item) => (
+                            <Grid2 item xs={12} key={item.id}> 
+                            <Card sx={{ display: 'flex', alignItems: 'center', p: 2 }}>
+                                <CardMedia 
+                                    component="img"
+                                    sx={{ width: 100, height: 100, mr: 2 }}
+                                    image={item.imageUrl}
+                                    alt={item.name}
+                                />
+                                <CardContent sx={{ flex: 1 }}>
+                                    <Typography variant="h6">{item.name}</Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        Price: ${item.price} x {item.quantity}
+                                    </Typography>
+                                </CardContent>
+                                <Button color="secondary" onClick={() => removeFromCart(item.id)}>
+                                    Remove
+                                </Button>
+                            </Card>
+                            </Grid2>
+                        ))}
+                    </Grid2>
+
+                    <Divider sx={{ my: 3 }}/>
+
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
+                        <Typography variant="h6">Total: ${total.toFixed(2)}</Typography>
+                        <Button variant="contained" color="primary" onClick={handleCheckout}>
+                            Proceed to Checkout
+                        </Button>
+                    </Box>
+                </>
+            )}
+        </Container>
+    )
 }
 
 export default CartDisplay;
