@@ -1,4 +1,4 @@
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import ProductList from './components/ProductsList';
 import ProductPage from './components/ProductPage';
 import CartDisplay from './components/CartDisplay';
@@ -31,7 +31,7 @@ function App() {
             <Route path='/products' element={<ProductList />} />
             <Route path='/products/:id' element={<ProductPage />} />
             <Route path='/cart' element={<CartDisplay />} />
-            <Route path='/checkout' element={<CheckoutPage />}/>
+            <Route path='/checkout' element={<CheckoutPage />} />
             <Route path='/login' element={<LoginForm />}/>
             <Route path='/register' element={<RegisterForm />}/>
           </Routes>

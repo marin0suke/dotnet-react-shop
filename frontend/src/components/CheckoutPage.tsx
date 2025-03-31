@@ -2,8 +2,6 @@
 import { useState } from "react";
 import { useCart } from "../contexts/CartContext";
 import LoginForm from "./LoginForm";
-import CheckoutButton from "./CheckoutButton";
-
 
 const CheckoutPage = () => {
     const { cart, total, clearCart } = useCart();

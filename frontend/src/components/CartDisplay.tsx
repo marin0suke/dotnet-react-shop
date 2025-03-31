@@ -1,8 +1,10 @@
 import { CartItem, useCart } from "../contexts/CartContext"
+import { useNavigate } from "react-router-dom";
 
 
 const CartDisplay = () => {
     const { cart, removeFromCart, updateCartItem, clearCart, total } = useCart();
+    const navigate = useNavigate();
 
     const handleQuantityChange = (item: CartItem, newQuantity: number) => {
         if (newQuantity < 1) {
@@ -10,6 +12,10 @@ const CartDisplay = () => {
         } else {
             updateCartItem(item.id, newQuantity);
         }
+    };
+
+    const handleCheckout = () => {
+        navigate('/checkout');
     };
 
     return (
@@ -38,6 +44,7 @@ const CartDisplay = () => {
                     </ul>  
                     <h3>Total: ${total.toFixed(2)}</h3>
                     <button onClick={clearCart}>Clear Cart</button>  
+                    <button onClick={handleCheckout}>Proceed to Checkout</button>
                 </div>
             )}
         </div>

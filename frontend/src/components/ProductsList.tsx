@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import api from "../api";
-import { Link } from "react-router-dom";
-import { useCart } from "../contexts/CartContext";
+import { Container, Grid2, Typography } from "@mui/material";
+import ProductCard from "./ProductCard";
 
 
 export interface Product { 
@@ -16,7 +16,6 @@ const ProductList = () => {
     const [ products, setProducts ] = useState<Product[]>([]);
     const [ loading, setLoading ] = useState<boolean>(false);
     const [ error, setError ] = useState<string>('');
-    const { addToCart } = useCart(); // custom hook from cartContext.
 
     useEffect(() => {
         api.get('/products')
@@ -35,22 +34,19 @@ const ProductList = () => {
 
 
     return (
-        <div>
-            <h2>Products</h2>
-            <ul>
+        <Container>
+            <Typography variant="h4">Products</Typography>
+            <Grid2 container spacing={2} columns={{ xs: 12, sm: 6, md: 4 }}>
                 {products.map(product => (
-                    <li key={product.id}>
-                        <h3>
-                            <Link to={`/products/${product.id}`}>{product.name}</Link>
-                        </h3>
-                        <p>{product.description}</p>
-                        <p>{product.price}</p>
-                        <img src={product.imageUrl} alt={product.name} width="150" />
-                        <button onClick={() => addToCart(product)}>Add to Cart</button>
-                    </li>
+                    <Grid2 
+                        key={product.id} 
+                        sx={{ gridColumn: { xs: 'span 4', sm: 'span 4', md: 'span 4' } }}
+                    >
+                        <ProductCard product={product} />
+                    </Grid2>
                 ))}
-            </ul>
-        </div>
+            </Grid2>
+        </Container>
     );
 };
 
