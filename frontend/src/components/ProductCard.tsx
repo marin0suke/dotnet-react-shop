@@ -1,13 +1,7 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
 import LinkBehaviour from "./LinkBehaviour";
 import { useCart } from "../contexts/CartContext";
-
-interface Product {
-    id: number;
-    name: string;
-    price: number; // not decimal? 
-    imageUrl: string;
-}
+import { Product } from "../types/Product";
 
 interface ProductCardProps {
     product: Product;

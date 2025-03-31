@@ -2,15 +2,8 @@ import { useState, useEffect } from "react";
 import api from "../api";
 import { Container, Grid2, Typography } from "@mui/material";
 import ProductCard from "./ProductCard";
+import { Product } from "../types/Product";
 
-
-export interface Product { 
-    id: number;
-    name: string;
-    description: string;
-    price: number;
-    imageUrl: string;
-}
 
 const ProductList = () => {
     const [ products, setProducts ] = useState<Product[]>([]);
