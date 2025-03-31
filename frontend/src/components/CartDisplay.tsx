@@ -1,23 +1,26 @@
-import { Box, Button, Card, CardContent, CardMedia, Container, Divider, Grid2, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, CardMedia, Container, Grid, Divider, Typography } from "@mui/material";
 import { CartItem, useCart } from "../contexts/CartContext"
 import { useNavigate } from "react-router-dom";
-
+import QuantityInput from "./QuantityInput";
+import ClearCartConfirmation from "./ClearCartConfirmation";
+import { useState } from "react";
 
 const CartDisplay = () => {
     const { cart, removeFromCart, updateCartItem, clearCart, total } = useCart();
     const navigate = useNavigate();
-
-    const handleQuantityChange = (item: CartItem, newQuantity: number) => {
-        if (newQuantity < 1) {
-            removeFromCart(item.id);
-        } else {
-            updateCartItem(item.id, newQuantity);
-        }
-    };
+    const [confirmOpen, setConfirmOpen] = useState(false);
 
     const handleCheckout = () => {
         navigate('/checkout');
     };
+
+    const handleOpenConfirm = () => setConfirmOpen(true);
+    const handleCloseConfirm = () => setConfirmOpen(false);
+
+    const handleClearCart = () => {
+        clearCart();
+        setConfirmOpen(false);
+    }
 
     return (
         <Container sx={{ mt: 4 }}>
@@ -29,9 +32,9 @@ const CartDisplay = () => {
                 <Typography variant="body1">Your cart is empty.</Typography>
             ) : (
                 <>
-                    <Grid2 container spacing={2}>
-                        {cart.map((item) => (
-                            <Grid2 item xs={12} key={item.id}> 
+                    <Grid container spacing={2}>
+                        {cart.map((item: CartItem) => (
+                            <Grid key={item.id} sx={{ gridColumn: { xs: 'span 12', sm: 'span 6', md: 'span 4' } }}> 
                             <Card sx={{ display: 'flex', alignItems: 'center', p: 2 }}>
                                 <CardMedia 
                                     component="img"
@@ -45,22 +48,36 @@ const CartDisplay = () => {
                                         Price: ${item.price} x {item.quantity}
                                     </Typography>
                                 </CardContent>
+                                <Box sx={{ display: 'flex', alignItems: 'center', mr: 2 }}>
+                                    <QuantityInput 
+                                        productId={item.id}
+                                        quantity={item.quantity}
+                                        onUpdate={updateCartItem} 
+                                    />
+                                </Box>
                                 <Button color="secondary" onClick={() => removeFromCart(item.id)}>
                                     Remove
                                 </Button>
                             </Card>
-                            </Grid2>
+                            </Grid>
                         ))}
-                    </Grid2>
+                    </Grid>
 
                     <Divider sx={{ my: 3 }}/>
 
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
+                        <Button onClick={handleOpenConfirm}>Clear Cart</Button>
                         <Typography variant="h6">Total: ${total.toFixed(2)}</Typography>
                         <Button variant="contained" color="primary" onClick={handleCheckout}>
                             Proceed to Checkout
                         </Button>
                     </Box>
+
+                    <ClearCartConfirmation 
+                        open={confirmOpen}
+                        onConfirm={handleClearCart}
+                        onCancel={handleCloseConfirm}
+                    />
                 </>
             )}
         </Container>

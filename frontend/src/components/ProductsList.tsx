@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import api from "../api";
-import { Container, Grid2, Typography } from "@mui/material";
+import { Container, Grid, Typography } from "@mui/material";
 import ProductCard from "./ProductCard";
 import { Product } from "../types/Product";
 
@@ -29,16 +29,16 @@ const ProductList = () => {
     return (
         <Container>
             <Typography variant="h4">Products</Typography>
-            <Grid2 container spacing={2} columns={{ xs: 12, sm: 6, md: 4 }}>
+            <Grid container spacing={2} columns={{ xs: 12, sm: 6, md: 4 }}>
                 {products.map(product => (
-                    <Grid2 
+                    <Grid 
                         key={product.id} 
                         sx={{ gridColumn: { xs: 'span 4', sm: 'span 4', md: 'span 4' } }}
                     >
                         <ProductCard product={product} />
-                    </Grid2>
+                    </Grid>
                 ))}
-            </Grid2>
+            </Grid>
         </Container>
     );
 };
