@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useCart } from "../contexts/CartContext";
 import LoginForm from "./LoginForm";
+import { Box, Button, Card, CardContent, Container, Divider, Grid, TextField, Typography } from "@mui/material";
 
 const CheckoutPage = () => {
     const { cart, total, clearCart } = useCart();
@@ -21,11 +22,11 @@ const CheckoutPage = () => {
 
     if (!token) {
         return (
-            <div>
-                <h2>Checkout</h2>
-                <p>You must be logged in to process with checkout.</p>
+            <Container sx={{ mt: 4}}>
+                <Typography variant="h4">Checkout</Typography>
+                <Typography variant="body1">You must be logged in to proceed with checkout.</Typography>
                 <LoginForm />
-            </div>
+            </Container>
         );
     }
 
@@ -50,70 +51,94 @@ const CheckoutPage = () => {
     }
 
     return (
-        <div>
-            <h2>Checkout</h2>
+        <Container sx={{ mt: 4 }}>
+            <Typography variant="h4" gutterBottom>
+                Checkout
+            </Typography>
+
             {cart.length === 0 ? (
-                <p>Your cart is empty</p>
+                <Typography variant="body1">Your cart is empty</Typography>
             ) : (
                 <>
-                    <h3>Your Order:</h3>
-                    <ul>
-                        {cart.map(item => (
-                            <li key={item.id}>
-                                {item.name} x {item.quantity} - ${(item.price * item.quantity).toFixed(2)}
-                            </li>
-                        ))}
-                    </ul>
-                    <h3>Total: ${total.toFixed(2)}</h3>
-                    <form onSubmit={handleSubmitOrder}>
-                        <h3>Shipping information</h3>
-                        <input 
+                    <Box sx={{ mb: 4 }}>
+                        <Typography variant="h6" gutterBottom>
+                            Your Order:
+                        </Typography>
+                        <Grid container spacing={2}>
+                            {cart.map(item => (
+                                <Grid xs={12} key={item.id}>
+                                    <Card variant="outlined">
+                                        <CardContent>
+                                            <Typography variant="subtitle1">{item.name}</Typography>
+                                            <Typography variant="body2" color="secondary">
+                                                ${item.price} x {item.quantity} = ${(item.price * item.quantity).toFixed(2)}
+                                            </Typography>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                            ))}
+                        </Grid>
+                        <Divider sx={{ my: 2 }}/>
+                        <Typography variant="h6">Total: ${total.toFixed(2)}</Typography>
+                    </Box>
+
+                    <Box
+                        component="form"
+                        onSubmit={handleSubmitOrder}
+                        sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 500, mx: 'auto' }}
+                    >
+                        <Typography variant="h6" gutterBottom>
+                            Shipping Information
+                        </Typography>
+                        <TextField 
                             name="firstName"
-                            placeholder="First Name"
+                            label="First Name"
                             value={shippingInfo.firstName}
                             onChange={handleInputChange}
                             required
                         />
-                        <input 
+                        <TextField 
                             name="lastName"
-                            placeholder="Last Name"
+                            label="Last Name"
                             value={shippingInfo.lastName}
                             onChange={handleInputChange}
                             required
                         />
-                        <input 
+                        <TextField 
                             name="address"
-                            placeholder="Address"
+                            label="Address"
                             value={shippingInfo.address}
                             onChange={handleInputChange}
                             required
                         />
-                        <input 
+                         <TextField 
                             name="city"
-                            placeholder="City"
+                            label="City"
                             value={shippingInfo.city}
                             onChange={handleInputChange}
                             required
                         />
-                        <input 
+                        <TextField 
                             name="postalCode"
-                            placeholder="Postal Code"
+                            label="Postal Code"
                             value={shippingInfo.postalCode}
                             onChange={handleInputChange}
                             required
                         />
-                        <input 
+                        <TextField 
                             name="country"
-                            placeholder="Country"
+                            label="Country"
                             value={shippingInfo.country}
                             onChange={handleInputChange}
                             required
                         />
-                        <button type="submit">Submit Order</button>
-                    </form>
+                        <Button variant="contained" color="primary" type="submit">
+                            Submit Order
+                        </Button>
+                    </Box>
                 </>
             )}
-        </div>
+        </Container>
     );
 };
 
