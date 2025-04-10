@@ -47,7 +47,11 @@ const CheckoutPage = () => {
     }
 
     if (orderSubmitted) {
-        return <div>Thank you for your order!</div>;
+        return (
+            <Container>
+                <Typography variant="h4">Thank you for your order!</Typography>
+            </Container>
+        );
     }
 
     return (
@@ -111,7 +115,7 @@ const CheckoutPage = () => {
                             onChange={handleInputChange}
                             required
                         />
-                         <TextField 
+                        <TextField 
                             name="city"
                             label="City"
                             value={shippingInfo.city}
