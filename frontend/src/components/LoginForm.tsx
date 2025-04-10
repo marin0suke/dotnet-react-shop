@@ -1,22 +1,30 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import api from "../api";
-
+import { useNavigate, Link as RouterLink } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import { 
+    Container, 
+    Paper, 
+    Typography, 
+    TextField, 
+    Button, 
+    Box, 
+    Link,
+    Alert
+} from '@mui/material';
 
 const LoginForm: React.FC = () => { 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState<string | null>(null);
-
+    const { login } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault(); 
+        setError(null);
 
         try {
-            const response = await api.post("/auth/login", { email, password }); // 
-            const token = response.data.token;
-            localStorage.setItem("token", token); // stores token under the key "token".
+            await login(email, password);
             navigate("/products");
         } catch (err: unknown) {
             setError("Login failed - please check credentials");
@@ -24,29 +32,61 @@ const LoginForm: React.FC = () => {
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <h2>Login</h2>
-                {error && <p style={{color: "red"}}>{error}</p>} 
-                <input 
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    required
-                />
-                <input 
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                    required
-                />
-                <button type="submit">Login</button>
-            </form>
-        </div>
-    )
-}
+        <Container maxWidth="sm" sx={{ mt: 4 }}>
+            <Paper elevation={3} sx={{ p: 4 }}>
+                <Typography variant="h4" gutterBottom>
+                    Login
+                </Typography>
+                {error && (
+                    <Alert severity="error" sx={{ mb: 2 }}>
+                        {error}
+                    </Alert>
+                )}
+                <form onSubmit={handleSubmit}>
+                    <Box sx={{ mb: 2 }}>
+                        <TextField
+                            fullWidth
+                            label="Email"
+                            type="email"
+                            value={email}
+                            onChange={e => setEmail(e.target.value)}
+                            required
+                            margin="normal"
+                        />
+                    </Box>
+                    <Box sx={{ mb: 2 }}>
+                        <TextField
+                            fullWidth
+                            label="Password"
+                            type="password"
+                            value={password}
+                            onChange={e => setPassword(e.target.value)}
+                            required
+                            margin="normal"
+                        />
+                    </Box>
+                    <Button 
+                        type="submit" 
+                        variant="contained" 
+                        color="primary"
+                        fullWidth
+                        sx={{ mb: 2 }}
+                    >
+                        Login
+                    </Button>
+                    <Box sx={{ textAlign: 'center' }}>
+                        <Typography variant="body2">
+                            Don't have an account?{' '}
+                            <Link component={RouterLink} to="/register">
+                                Register here
+                            </Link>
+                        </Typography>
+                    </Box>
+                </form>
+            </Paper>
+        </Container>
+    );
+};
 
 export default LoginForm;
 
