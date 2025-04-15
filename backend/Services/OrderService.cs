@@ -1,4 +1,3 @@
-
 using AutoMapper;
 using DotnetReactShop.Models;
 using DotnetReactShop.Repositories;
@@ -16,7 +15,7 @@ namespace DotnetReactShop.Services
             _mapper = mapper;
         }
 
-        public async Task<OrderDto> CreateOrderAsync(OrderSubmissionDto orderDto, string userId = null)
+        public async Task<OrderDto> CreateOrderAsync(OrderSubmissionDto orderDto, string? userId = null)
         {
             if (string.IsNullOrEmpty(userId))
             {

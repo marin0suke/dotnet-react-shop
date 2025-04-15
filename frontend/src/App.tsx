@@ -9,6 +9,7 @@ import ProfilePage from './components/ProfilePage';
 import { ThemeProvider, CssBaseline, createTheme } from '@mui/material';
 import Header from './components/Header';
 import { AuthProvider } from './contexts/AuthContext';
+import { CartProvider } from './contexts/CartContext';
 
 const theme = createTheme({
   palette: {
@@ -25,21 +26,24 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AuthProvider>
-        <div>
-          <Header />
-          <main>
-            <Routes>
-              <Route path="*" element={<ProductList />} />
-              <Route path='/products' element={<ProductList />} />
-              <Route path='/products/:id' element={<ProductPage />} />
-              <Route path='/cart' element={<CartDisplay />} />
-              <Route path='/checkout' element={<CheckoutPage />} />
-              <Route path='/login' element={<LoginForm />}/>
-              <Route path='/register' element={<RegisterForm />}/>
-              <Route path='/profile' element={<ProfilePage />}/>
-            </Routes>
-          </main>
-        </div>
+        <CartProvider>
+          <div>
+            <Header />
+            <main>
+              <Routes>
+                <Route path="*" element={<ProductList />} />
+                <Route path='/products' element={<ProductList />} />
+                <Route path='/products/:id' element={<ProductPage />} />
+                <Route path='/cart' element={<CartDisplay />} />
+                <Route path='/checkout' element={<CheckoutPage />} />
+                <Route path='/login' element={<LoginForm />}/>
+                <Route path='/register' element={<RegisterForm />}/>
+                <Route path='/profile' element={<ProfilePage />}/>
+              </Routes>
+            </main>
+          </div>
+        </CartProvider>
+       
       </AuthProvider>
     </ThemeProvider>
   );

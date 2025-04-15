@@ -1,11 +1,10 @@
-
 using DotnetReactShop.Models;
 
 namespace DotnetReactShop.Services
 {
     public interface IOrderService
     {
-        Task<OrderDto> CreateOrderAsync(OrderSubmissionDto orderDto, string userId = null);
+        Task<OrderDto> CreateOrderAsync(OrderSubmissionDto orderDto, string? userId = null);
         Task<OrderDto?> GetOrderByIdAsync(int orderId);
         Task<IEnumerable<OrderDto>> GetOrdersByUserIdAsync(string userId); 
 
