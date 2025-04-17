@@ -1,11 +1,12 @@
-
 import { useState } from "react";
 import { useCart } from "../contexts/CartContext";
 import LoginForm from "./LoginForm";
 import { Box, Button, Card, CardContent, Container, Divider, Grid, TextField, Typography } from "@mui/material";
+import { useAuth } from "../contexts/AuthContext";
 
 const CheckoutPage = () => {
     const { cart, total, clearCart } = useCart();
+    const { user } = useAuth();
 
     const [shippingInfo, setShippingInfo] = useState({
         firstName: '',
@@ -18,14 +19,12 @@ const CheckoutPage = () => {
 
     const [orderSubmitted, setOrderSubmitted] = useState(false); 
 
-    const token = localStorage.getItem("token");
-
-    if (!token) {
+    if (!user) {
         return (
             <Container sx={{ mt: 4}}>
                 <Typography variant="h4">Checkout</Typography>
                 <Typography variant="body1">You must be logged in to proceed with checkout.</Typography>
-                <LoginForm />
+                <LoginForm redirectTo="/checkout" />
             </Container>
         );
     }
@@ -34,7 +33,7 @@ const CheckoutPage = () => {
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setShippingInfo({
             ...shippingInfo,
-            [e.target.name]: e.target.value, // computed property name - so can use a single generic change handler that works for any input field. 
+            [e.target.name]: e.target.value,
         });
     };
 
@@ -59,32 +58,27 @@ const CheckoutPage = () => {
             <Typography variant="h4" gutterBottom>
                 Checkout
             </Typography>
-
             {cart.length === 0 ? (
-                <Typography variant="body1">Your cart is empty</Typography>
+                <Typography variant="body1">Your cart is empty.</Typography>
             ) : (
                 <>
-                    <Box sx={{ mb: 4 }}>
-                        <Typography variant="h6" gutterBottom>
-                            Your Order:
-                        </Typography>
-                        <Grid container spacing={2}>
-                            {cart.map(item => (
-                                <Grid xs={12} key={item.id}>
-                                    <Card variant="outlined">
-                                        <CardContent>
-                                            <Typography variant="subtitle1">{item.name}</Typography>
-                                            <Typography variant="body2" color="secondary">
-                                                ${item.price} x {item.quantity} = ${(item.price * item.quantity).toFixed(2)}
-                                            </Typography>
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                            ))}
-                        </Grid>
-                        <Divider sx={{ my: 2 }}/>
-                        <Typography variant="h6">Total: ${total.toFixed(2)}</Typography>
-                    </Box>
+                    <Grid container spacing={2}>
+                        {cart.map((item) => (
+                            <Grid item xs={12} key={item.id}>
+                                <Card>
+                                    <CardContent>
+                                        <Typography variant="h6">{item.name}</Typography>
+                                        <Typography variant="body2">Quantity: {item.quantity}</Typography>
+                                        <Typography variant="body2">Price: ${item.price}</Typography>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        ))}
+                    </Grid>
+                    <Divider sx={{ my: 2 }} />
+                    <Typography variant="h6" gutterBottom>
+                        Total: ${total}
+                    </Typography>
 
                     <Box
                         component="form"
