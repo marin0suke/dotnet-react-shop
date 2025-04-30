@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import { useCart } from "../contexts/CartContext";
-import api from "../api";
 import { 
     Container, 
     Paper, 
@@ -23,7 +21,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ redirectTo = "/products" }) => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState<string | null>(null);
     const { login } = useAuth();
-    const { cart: guestCart, clearCart } = useCart();
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -31,30 +28,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ redirectTo = "/products" }) => {
         setError(null);
 
         try {
-            // Store guest cart items before login
-            const guestCartItems = [...guestCart];
-            
-            // Perform login
             await login(email, password);
-            
-            // Transfer guest cart items to authenticated cart
-            if (guestCartItems.length > 0) {
-                try {
-                    // Add each item to the authenticated cart
-                    for (const item of guestCartItems) {
-                        await api.post('/cart', {
-                            productId: item.id,
-                            quantity: item.quantity
-                        });
-                    }
-                    // Clear guest cart only after successful transfer
-                    clearCart();
-                } catch (error) {
-                    console.error("Error transferring cart items:", error);
-                    // Continue with navigation even if cart transfer fails
-                }
-            }
-            
             navigate(redirectTo);
         } catch (err: unknown) {
             setError("Login failed - please check credentials");

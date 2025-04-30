@@ -1,12 +1,12 @@
 import { Box, Button, Card, CardContent, CardMedia, Container, Grid, Divider, Typography } from "@mui/material";
-import { CartItem, useCart } from "../contexts/CartContext"
+import { useCart } from "../contexts/CartContext";
 import { useNavigate } from "react-router-dom";
 import QuantityInput from "./QuantityInput";
 import ClearCartConfirmation from "./ClearCartConfirmation";
 import { useState } from "react";
 
 const CartDisplay = () => {
-    const { cart, removeFromCart, updateCartItem, clearCart, total } = useCart();
+    const { cart, removeFromCart, updateQuantity, clearCart } = useCart();
     const navigate = useNavigate();
     const [confirmOpen, setConfirmOpen] = useState(false);
 
@@ -22,6 +22,8 @@ const CartDisplay = () => {
         setConfirmOpen(false);
     }
 
+    const total = cart.reduce((sum, item) => sum + (item.productPrice * item.quantity), 0);
+
     return (
         <Container sx={{ mt: 4 }}>
             <Typography variant="h4" gutterBottom>
@@ -33,29 +35,29 @@ const CartDisplay = () => {
             ) : (
                 <>
                     <Grid container spacing={2}>
-                        {cart.map((item: CartItem) => (
+                        {cart.map((item) => (
                             <Grid key={item.id} sx={{ gridColumn: { xs: 'span 12', sm: 'span 6', md: 'span 4' } }}> 
                             <Card sx={{ display: 'flex', alignItems: 'center', p: 2 }}>
                                 <CardMedia 
                                     component="img"
                                     sx={{ width: 100, height: 100, mr: 2 }}
                                     image={item.imageUrl}
-                                    alt={item.name}
+                                    alt={item.productName}
                                 />
                                 <CardContent sx={{ flex: 1 }}>
-                                    <Typography variant="h6">{item.name}</Typography>
+                                    <Typography variant="h6">{item.productName}</Typography>
                                     <Typography variant="body2" color="text.secondary">
-                                        Price: ${item.price} x {item.quantity}
+                                        Price: ${item.productPrice} x {item.quantity}
                                     </Typography>
                                 </CardContent>
                                 <Box sx={{ display: 'flex', alignItems: 'center', mr: 2 }}>
                                     <QuantityInput 
-                                        productId={item.id}
+                                        productId={item.productId}
                                         quantity={item.quantity}
-                                        onUpdate={updateCartItem} 
+                                        onUpdate={updateQuantity} 
                                     />
                                 </Box>
-                                <Button color="secondary" onClick={() => removeFromCart(item.id)}>
+                                <Button color="secondary" onClick={() => removeFromCart(item.productId)}>
                                     Remove
                                 </Button>
                             </Card>
