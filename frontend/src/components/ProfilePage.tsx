@@ -1,5 +1,5 @@
 import { useAuth } from "../contexts/AuthContext";
-import { Container, Paper, Typography, Box, Button } from '@mui/material';
+import { Container, Paper, Typography, Box, Button, Stack } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const ProfilePage: React.FC = () => {
@@ -8,44 +8,110 @@ const ProfilePage: React.FC = () => {
 
     if (!user) {
         return (
-            <Container maxWidth="sm" sx={{ mt: 4 }}>
-                <Paper elevation={3} sx={{ p: 4, textAlign: 'center' }}>
-                    <Typography variant="h6" gutterBottom>
-                        Please log in to view your profile
-                    </Typography>
-                    <Button 
-                        variant="contained" 
-                        color="primary"
-                        onClick={() => navigate('/login')}
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    minHeight: 'calc(100vh - 64px)', // Subtract header height
+                    width: '100%',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    backgroundColor: 'background.default'
+                }}
+            >
+                <Container 
+                    maxWidth="sm" 
+                    sx={{ 
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <Paper 
+                        elevation={3} 
+                        sx={{ 
+                            p: 4,
+                            width: '100%',
+                            maxWidth: 400,
+                            textAlign: 'center'
+                        }}
                     >
-                        Go to Login
-                    </Button>
-                </Paper>
-            </Container>
+                        <Typography variant="h6" gutterBottom>
+                            Please log in to view your profile
+                        </Typography>
+                        <Button 
+                            variant="contained" 
+                            color="primary"
+                            onClick={() => navigate('/login')}
+                            size="large"
+                        >
+                            Go to Login
+                        </Button>
+                    </Paper>
+                </Container>
+            </Box>
         );
     }
 
     return (
-        <Container maxWidth="sm" sx={{ mt: 4 }}>
-            <Paper elevation={3} sx={{ p: 4 }}>
-                <Typography variant="h4" gutterBottom>
-                    Profile
-                </Typography>
-                <Box sx={{ mt: 2 }}>
-                    <Typography variant="h6" gutterBottom>
-                        Account Information
+        <Box
+            sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                minHeight: 'calc(100vh - 64px)', // Subtract header height
+                width: '100%',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: 'background.default'
+            }}
+        >
+            <Container 
+                maxWidth="sm" 
+                sx={{ 
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
+                <Paper 
+                    elevation={3} 
+                    sx={{ 
+                        p: 4,
+                        width: '100%',
+                        maxWidth: 400
+                    }}
+                >
+                    <Typography variant="h4" gutterBottom align="center">
+                        Profile
                     </Typography>
-                    <Box sx={{ mt: 2 }}>
-                        <Typography variant="body1" gutterBottom>
-                            <strong>Name:</strong> {user.name}
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                            <strong>Email:</strong> {user.email}
-                        </Typography>
-                    </Box>
-                </Box>
-            </Paper>
-        </Container>
+                    <Stack spacing={3}>
+                        <Box>
+                            <Typography variant="h6" gutterBottom>
+                                Account Information
+                            </Typography>
+                            <Stack spacing={2}>
+                                <Typography variant="body1">
+                                    <strong>Name:</strong> {user.name}
+                                </Typography>
+                                <Typography variant="body1">
+                                    <strong>Email:</strong> {user.email}
+                                </Typography>
+                            </Stack>
+                        </Box>
+                    </Stack>
+                </Paper>
+            </Container>
+        </Box>
     );
 };
 

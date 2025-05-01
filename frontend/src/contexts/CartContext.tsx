@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 import api from '../api';
 import { CartItem } from '../types/CartItem';
+import { Snackbar, Alert } from '@mui/material';
 
 interface CartContextType {
     cart: CartItem[];
@@ -17,8 +18,17 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [cart, setCart] = useState<CartItem[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [notification, setNotification] = useState<{ message: string; open: boolean }>({ message: '', open: false });
     const { user } = useAuth();
     const isAuthenticated = !!user;
+
+    const showNotification = (message: string) => {
+        setNotification({ message, open: true });
+    };
+
+    const handleCloseNotification = () => {
+        setNotification(prev => ({ ...prev, open: false }));
+    };
 
     // Load cart when auth state changes
     useEffect(() => {
@@ -77,10 +87,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 await api.post('/cart', { productId, quantity });
                 // Reload entire cart to ensure consistency
                 const response = await api.get('/cart');
+                const addedItem = response.data.find((item: CartItem) => item.productId === productId);
                 setCart(response.data);
+                showNotification(`${addedItem.productName} added to cart`);
             } catch (error) {
                 console.error('Error adding to cart:', error);
-                // Optionally show error to user
             }
         } else {
             // For guest cart, we need to fetch the product details first
@@ -106,6 +117,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 
                 setCart(newCart);
                 localStorage.setItem('guestCart', JSON.stringify(newCart));
+                showNotification(`${product.name} added to cart`);
             } catch (error) {
                 console.error('Error adding to guest cart:', error);
             }
@@ -170,6 +182,16 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
             isLoading
         }}>
             {children}
+            <Snackbar
+                open={notification.open}
+                autoHideDuration={3000}
+                onClose={handleCloseNotification}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            >
+                <Alert onClose={handleCloseNotification} severity="success" sx={{ width: '100%' }}>
+                    {notification.message}
+                </Alert>
+            </Snackbar>
         </CartContext.Provider>
     );
 };

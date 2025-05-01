@@ -9,7 +9,8 @@ import {
     Button, 
     Box, 
     Link,
-    Alert
+    Alert,
+    Stack
 } from '@mui/material';
 
 interface LoginFormProps {
@@ -36,56 +37,85 @@ const LoginForm: React.FC<LoginFormProps> = ({ redirectTo = "/products" }) => {
     };
 
     return (
-        <Container maxWidth="sm" sx={{ mt: 4 }}>
-            <Paper elevation={3} sx={{ p: 4 }}>
-                <Typography variant="h4" gutterBottom>
-                    Login
-                </Typography>
-                {error && (
-                    <Alert severity="error" sx={{ mb: 2 }}>
-                        {error}
-                    </Alert>
-                )}
-                <form onSubmit={handleSubmit}>
-                    <Box sx={{ mb: 2 }}>
-                        <TextField
-                            fullWidth
-                            label="Email"
-                            type="email"
-                            value={email}
-                            onChange={e => setEmail(e.target.value)}
-                            required
-                            margin="normal"
-                        />
-                    </Box>
-                    <Box sx={{ mb: 2 }}>
-                        <TextField
-                            fullWidth
-                            label="Password"
-                            type="password"
-                            value={password}
-                            onChange={e => setPassword(e.target.value)}
-                            required
-                            margin="normal"
-                        />
-                    </Box>
-                    <Button 
-                        type="submit" 
-                        variant="contained" 
-                        color="primary"
-                        fullWidth
-                        sx={{ mb: 2 }}
-                    >
+        <Box
+            sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                minHeight: 'calc(100vh - 64px)', // Subtract header height
+                width: '100%',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: 'background.default'
+            }}
+        >
+            <Container 
+                maxWidth="sm" 
+                sx={{ 
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
+                <Paper 
+                    elevation={3} 
+                    sx={{ 
+                        p: 4,
+                        width: '100%',
+                        maxWidth: 400
+                    }}
+                >
+                    <Typography variant="h4" gutterBottom align="center">
                         Login
-                    </Button>
-                    <Box sx={{ textAlign: 'center' }}>
-                        <Link component={RouterLink} to="/register">
-                            Don't have an account? Register here
-                        </Link>
-                    </Box>
-                </form>
-            </Paper>
-        </Container>
+                    </Typography>
+                    {error && (
+                        <Alert severity="error" sx={{ mb: 2 }}>
+                            {error}
+                        </Alert>
+                    )}
+                    <form onSubmit={handleSubmit}>
+                        <Stack spacing={2}>
+                            <TextField
+                                fullWidth
+                                label="Email"
+                                type="email"
+                                value={email}
+                                onChange={e => setEmail(e.target.value)}
+                                required
+                                autoComplete="email"
+                            />
+                            <TextField
+                                fullWidth
+                                label="Password"
+                                type="password"
+                                value={password}
+                                onChange={e => setPassword(e.target.value)}
+                                required
+                                autoComplete="current-password"
+                            />
+                            <Button 
+                                type="submit" 
+                                variant="contained" 
+                                color="primary"
+                                fullWidth
+                                size="large"
+                            >
+                                Login
+                            </Button>
+                            <Box sx={{ textAlign: 'center' }}>
+                                <Link component={RouterLink} to="/register">
+                                    Don't have an account? Register here
+                                </Link>
+                            </Box>
+                        </Stack>
+                    </form>
+                </Paper>
+            </Container>
+        </Box>
     );
 };
 
