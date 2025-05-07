@@ -15,5 +15,8 @@ public class MappingProfile : Profile
         CreateMap<OrderItemDto, OrderItem>(); // to convert items on submission. (front to back)
 
         CreateMap<UpdateOrderDto, Order>(); // updating (front to back)
+
+        CreateMap<ApplicationUser, LoginResponseDto>()
+            .ForMember(dest => dest.Token, opt => opt.Ignore()); // mapping user to login response dto
     }
 }

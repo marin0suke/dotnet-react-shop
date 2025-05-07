@@ -20,9 +20,9 @@ namespace DotnetReactShop.Controllers
             _userManager = userManager;
             _authService = authService;
         }
-
+        
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterModelDto model)
+        public async Task<IActionResult> Register([FromBody] RegisterRequestDto model)
         {
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -34,20 +34,18 @@ namespace DotnetReactShop.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModelDto model)
+        public async Task<IActionResult> Login([FromBody] LoginRequestDto model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
                 var token = await _authService.GenerateJwtToken(user);
-                return Ok(new
-                {
-                    id = user.Id,
-                    email = user.Email,
-                    userName = user.UserName,
-                    token = token
-                });
+
+                var response = _mapper.Map<LoginResponseDto>(user);
+                response.Token = token; 
+                return Ok(response);
             }
+            
             return Unauthorized("Invalid login attempt");
         }
 
@@ -67,14 +65,8 @@ namespace DotnetReactShop.Controllers
                 return NotFound("User not found");
             }
 
-            var token = await _authService.GenerateJwtToken(user);
-            return Ok(new
-            {
-                id = user.Id,
-                email = user.Email,
-                userName = user.UserName,
-                token = token
-            });
+            var userDto = _mapper.Map<UserDto>(user);
+            return Ok(userDto);
         }
     }
 }
