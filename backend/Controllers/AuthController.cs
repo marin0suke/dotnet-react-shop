@@ -1,9 +1,10 @@
-
 using DotnetReactShop.Models;
 using DotnetReactShop.Services;
+using DotnetReactShop.DTOs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration.UserSecrets;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace DotnetReactShop.Controllers
 {
@@ -39,9 +40,41 @@ namespace DotnetReactShop.Controllers
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
                 var token = await _authService.GenerateJwtToken(user);
-                return Ok(new { Token = token });
+                return Ok(new
+                {
+                    id = user.Id,
+                    email = user.Email,
+                    userName = user.UserName,
+                    token = token
+                });
             }
             return Unauthorized("Invalid login attempt");
+        }
+
+        [Authorize]
+        [HttpGet("me")]
+        public async Task<IActionResult> GetMe()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var token = await _authService.GenerateJwtToken(user);
+            return Ok(new
+            {
+                id = user.Id,
+                email = user.Email,
+                userName = user.UserName,
+                token = token
+            });
         }
     }
 }

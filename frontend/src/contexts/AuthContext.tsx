@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { AuthUser } from '../types/AuthUser.ts';
 import api from '../api';
 
@@ -18,6 +18,25 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [user, setUser] = useState<AuthUser | null>(null);
+
+    useEffect(() => { // rehydrate user on initial load
+        const loadUser = async () => {
+            const token = localStorage.getItem("token");
+            if (!token) return;
+
+            try {
+                const response = await api.get("/auth/me", {
+                    headers: {Authorization: `Bearer ${token}`}
+                });
+                const authUser: AuthUser = { ...response.data, token };
+                setUser(authUser);
+            } catch (error) {
+                console.error("Error loading user:", error);
+                localStorage.removeItem("token"); // optional clear invalid token
+            }
+        };
+        loadUser();
+    }, [])
 
     const login = async (email: string, password: string) => {
         try {
