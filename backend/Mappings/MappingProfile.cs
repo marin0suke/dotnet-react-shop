@@ -17,6 +17,14 @@ public class MappingProfile : Profile
         CreateMap<UpdateOrderDto, Order>(); // updating (front to back)
 
         CreateMap<ApplicationUser, LoginResponseDto>()
+            .IncludeBase<ApplicationUser, UserDto>() // this way we will only map the token.
             .ForMember(dest => dest.Token, opt => opt.Ignore()); // mapping user to login response dto
+
+        CreateMap<ApplicationUser, UserDto>(); // for everywhere we need to return user info.
+
+        CreateMap<ApplicationUser, MeResponseDto>()
+            .IncludeBase<ApplicationUser, UserDto>() // this re-uses the UserDto mapping.
+            .ForMember(dest => dest.Roles, opt => opt.Ignore()); // tells automapper to ignore roles since we'll populate it manually.
+ 
     }
 }

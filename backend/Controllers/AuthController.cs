@@ -65,7 +65,7 @@ namespace DotnetReactShop.Controllers
 
         [Authorize]
         [HttpGet("me")]
-        public async Task<IActionResult> GetMe()
+        public async Task<ActionResult<MeResponseDto>> GetMe()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
@@ -79,12 +79,12 @@ namespace DotnetReactShop.Controllers
                 return NotFound("User not found");
             }
 
-            var userDto = _mapper.Map<UserDto>(user);
-            return Ok(userDto);
+            var meDto = _mapper.Map<MeResponseDto>(user);
+
+            var roles = await _userManager.GetRolesAsync(user); // populate roles property manually.
+            meDto.Roles = roles.ToList();
+            
+            return Ok(meDto);
         }
     }
 }
-
-// registration endpoint accepts a RegisterModel (dto), creates a new user with Identity, and returns success messages or errors.
-// login endpoint verifies user creds, if successful, calls AuthService to generate a JWT token and returns the token to the client. 
-
