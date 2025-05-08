@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using DotnetReactShop.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -83,6 +84,9 @@ using (var scope = app.Services.CreateScope()) // good for dev but remove in pro
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>(); // retrieves an instance of AppDbContext from the dependency injection container.
     db.Database.Migrate(); // applies any pending migrations to db. 
+
+    await DotnetReactShop.Infrastructure.DbInitializer.SeedRolesAsync(services); // seed roles.
+
 } // this migrates the databse on startup - optional for development. 
 
 if (app.Environment.IsDevelopment())
@@ -90,6 +94,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 
 app.UseHttpsRedirection();
 app.UseAuthentication(); // added before authorisation.

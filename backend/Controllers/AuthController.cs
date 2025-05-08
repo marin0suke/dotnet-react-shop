@@ -30,7 +30,21 @@ namespace DotnetReactShop.Controllers
             {
                 return BadRequest(result.Errors);
             }
-            return Ok(new { Message = "User registered successfully", userId = user.Id});
+
+            await _userManager.AddToRoleAsync(user, "Retailer"); // assign role to user.
+
+            var token = await _authService.GenerateJwtToken(user);
+
+            var roles = await _userManager.GetRolesAsync(user); // grab role for user.
+
+            var response = new LoginResponseDto
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Roles = roles.ToList(),
+                Token = token
+            };
+            return Ok(response);
         }
 
         [HttpPost("login")]
