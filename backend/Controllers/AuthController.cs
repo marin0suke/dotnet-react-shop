@@ -54,6 +54,7 @@ namespace DotnetReactShop.Controllers
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
                 var token = await _authService.GenerateJwtToken(user);
+                var roles = await _userManager.GetRolesAsync(user); // grab role for user.
 
                 var response = _mapper.Map<LoginResponseDto>(user);
                 response.Token = token; 
@@ -83,7 +84,7 @@ namespace DotnetReactShop.Controllers
 
             var roles = await _userManager.GetRolesAsync(user); // populate roles property manually.
             meDto.Roles = roles.ToList();
-            
+
             return Ok(meDto);
         }
     }
