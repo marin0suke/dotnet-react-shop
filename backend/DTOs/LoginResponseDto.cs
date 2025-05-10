@@ -1,8 +1,9 @@
+using System.Collections.Generic;
 
-public class LoginResponseDto
+namespace DotnetReactShop.DTOs
 {
-    public string Token { get; set; }
-    public string UserId { get; set; }
-    public string Email { get; set; }
-    public string UserName { get; set; }
+    public class LoginResponseDto : UserDto
+    {
+        public string Token { get; set; }
+    }
 }

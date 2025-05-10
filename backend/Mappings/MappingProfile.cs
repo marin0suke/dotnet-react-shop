@@ -1,6 +1,7 @@
 
 using AutoMapper;
 using DotnetReactShop.Models;
+using DotnetReactShop.DTOs;
 
 public class MappingProfile : Profile
 {

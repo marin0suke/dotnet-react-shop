@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using AutoMapper;
 
 namespace DotnetReactShop.Controllers
 {
@@ -14,11 +15,16 @@ namespace DotnetReactShop.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IAuthService _authService;
+        private readonly IMapper _mapper;
 
-        public AuthController(UserManager<ApplicationUser> userManager, IAuthService authService)
+        public AuthController(
+            UserManager<ApplicationUser> userManager, 
+            IAuthService authService,
+            IMapper mapper)
         {
             _userManager = userManager;
             _authService = authService;
+            _mapper = mapper;
         }
         
         [HttpPost("register")]
@@ -32,18 +38,13 @@ namespace DotnetReactShop.Controllers
             }
 
             await _userManager.AddToRoleAsync(user, "Retailer"); // assign role to user.
-
             var token = await _authService.GenerateJwtToken(user);
+            var roles = await _userManager.GetRolesAsync(user);
 
-            var roles = await _userManager.GetRolesAsync(user); // grab role for user.
-
-            var response = new LoginResponseDto
-            {
-                Id = user.Id,
-                Email = user.Email,
-                Roles = roles.ToList(),
-                Token = token
-            };
+            var response = _mapper.Map<LoginResponseDto>(user);
+            response.Token = token;
+            response.Roles = roles.ToList();
+            
             return Ok(response);
         }
 
@@ -54,10 +55,12 @@ namespace DotnetReactShop.Controllers
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
                 var token = await _authService.GenerateJwtToken(user);
-                var roles = await _userManager.GetRolesAsync(user); // grab role for user.
+                var roles = await _userManager.GetRolesAsync(user);
 
                 var response = _mapper.Map<LoginResponseDto>(user);
-                response.Token = token; 
+                response.Token = token;
+                response.Roles = roles.ToList();
+                
                 return Ok(response);
             }
             
@@ -66,7 +69,7 @@ namespace DotnetReactShop.Controllers
 
         [Authorize]
         [HttpGet("me")]
-        public async Task<ActionResult<MeResponseDto>> GetMe()
+        public async Task<IActionResult> GetMe()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
@@ -80,12 +83,14 @@ namespace DotnetReactShop.Controllers
                 return NotFound("User not found");
             }
 
-            var meDto = _mapper.Map<MeResponseDto>(user);
+            var token = await _authService.GenerateJwtToken(user);
+            var roles = await _userManager.GetRolesAsync(user);
 
-            var roles = await _userManager.GetRolesAsync(user); // populate roles property manually.
-            meDto.Roles = roles.ToList();
-
-            return Ok(meDto);
+            var response = _mapper.Map<LoginResponseDto>(user);
+            response.Token = token;
+            response.Roles = roles.ToList();
+            
+            return Ok(response);
         }
     }
 }

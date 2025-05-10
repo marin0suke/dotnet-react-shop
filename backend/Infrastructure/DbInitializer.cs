@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
-namespace DotnetReactShop.Infrastructure;
+namespace DotnetReactShop.Infrastructure
 {
     public static class DbInitializer
     {

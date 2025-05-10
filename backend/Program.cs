@@ -82,7 +82,9 @@ app.UseCors("AllowReactApp"); // enable before other middleware (like auth).
 
 using (var scope = app.Services.CreateScope()) // good for dev but remove in production to prevent unexpected migrations.
 {
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>(); // retrieves an instance of AppDbContext from the dependency injection container.
+    var services = scope.ServiceProvider;
+
+    var db = services.GetRequiredService<AppDbContext>(); // retrieves an instance of AppDbContext from the dependency injection container.
     db.Database.Migrate(); // applies any pending migrations to db. 
 
     await DotnetReactShop.Infrastructure.DbInitializer.SeedRolesAsync(services); // seed roles.

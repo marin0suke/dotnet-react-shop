@@ -1,5 +1,5 @@
 import { useAuth } from "../contexts/AuthContext";
-import { Container, Paper, Typography, Box, Button, Stack } from '@mui/material';
+import { Container, Paper, Typography, Box, Button, Stack, Chip } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const ProfilePage: React.FC = () => {
@@ -106,6 +106,20 @@ const ProfilePage: React.FC = () => {
                                 <Typography variant="body1">
                                     <strong>Email:</strong> {user.email}
                                 </Typography>
+                                <Box>
+                                    <Typography variant="body1" component="span" sx={{ mr: 1 }}>
+                                        <strong>User Type:</strong>
+                                    </Typography>
+                                    {user.roles?.map((role, index) => (
+                                        <Chip
+                                            key={index}
+                                            label={role}
+                                            color="primary"
+                                            size="small"
+                                            sx={{ mr: 1, mt: 1 }}
+                                        />
+                                    ))}
+                                </Box>
                             </Stack>
                         </Box>
                     </Stack>
