@@ -69,7 +69,7 @@ namespace DotnetReactShop.Controllers
 
         [Authorize]
         [HttpGet("me")]
-        public async Task<IActionResult> GetMe()
+        public async Task<ActionResult<UserDto>> GetMe()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
@@ -83,12 +83,10 @@ namespace DotnetReactShop.Controllers
                 return NotFound("User not found");
             }
 
-            var token = await _authService.GenerateJwtToken(user);
             var roles = await _userManager.GetRolesAsync(user);
 
-            var response = _mapper.Map<LoginResponseDto>(user);
-            response.Token = token;
-            response.Roles = roles.ToList();
+            var response = _mapper.Map<UserDto>(user); 
+            response.Roles = roles.ToList(); // populate roles property manually.
             
             return Ok(response);
         }

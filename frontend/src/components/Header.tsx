@@ -1,25 +1,15 @@
-import { AppBar, Button, Toolbar, Typography, Menu, MenuItem } from "@mui/material"
+import { AppBar, Button, Toolbar, Typography, Box } from "@mui/material"
 import LinkBehaviour from "./LinkBehaviour";
 import { useAuth } from "../contexts/AuthContext";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Header: React.FC = () => {
     const { user, logout } = useAuth();
-    const [authAnchorEl, setAuthAnchorEl] = useState<null | HTMLElement>(null);
     const navigate = useNavigate();
-
-    const handleAuthClick = (event: React.MouseEvent<HTMLElement>) => {
-        setAuthAnchorEl(event.currentTarget);
-    };
-
-    const handleAuthClose = () => {
-        setAuthAnchorEl(null);
-    };
 
     const handleLogout = () => {
         logout();
-        handleAuthClose();
+        navigate('/');
     };
 
     return (
@@ -28,6 +18,11 @@ const Header: React.FC = () => {
                 <Typography variant="h6" sx={{ flexGrow: 1 }}>
                     .Net React Store
                 </Typography>
+                {user && (
+                    <Typography variant="body1" sx={{ mr: 2 }}>
+                        Welcome{user.name ? `, ${user.name}` : '!'}
+                    </Typography>
+                )}
                 <Button color="inherit" component={LinkBehaviour} to="/products">Products</Button>
                 <Button color="inherit" component={LinkBehaviour} to="/cart">Cart</Button>
                 {user ? (
@@ -39,32 +34,18 @@ const Header: React.FC = () => {
                     <>
                         <Button 
                             color="inherit" 
-                            onClick={handleAuthClick}
+                            component={LinkBehaviour} 
+                            to="/login"
                         >
                             Login
                         </Button>
-                        <Menu
-                            anchorEl={authAnchorEl}
-                            open={Boolean(authAnchorEl)}
-                            onClose={handleAuthClose}
+                        <Button 
+                            color="inherit" 
+                            component={LinkBehaviour} 
+                            to="/register"
                         >
-                            <MenuItem 
-                                onClick={() => {
-                                    navigate('/login');
-                                    handleAuthClose();
-                                }}
-                            >
-                                Login
-                            </MenuItem>
-                            <MenuItem 
-                                onClick={() => {
-                                    navigate('/register');
-                                    handleAuthClose();
-                                }}
-                            >
-                                Register
-                            </MenuItem>
-                        </Menu>
+                            Register
+                        </Button>
                     </>
                 )}
             </Toolbar>
