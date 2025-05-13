@@ -21,18 +21,26 @@ const LoginForm: React.FC<LoginFormProps> = ({ redirectTo = "/products" }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
     const { login } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault(); 
         setError(null);
+        setIsLoading(true);
 
         try {
             await login(email, password);
             navigate(redirectTo);
-        } catch (err: unknown) {
-            setError("Login failed - please check credentials");
+        } catch (err: any) {
+            if (err.response?.status === 401) {
+                setError("Invalid email or password");
+            } else {
+                setError("Something went wrong. Please try again");
+            } 
+        } finally {
+            setIsLoading(false);
         }
     };
 

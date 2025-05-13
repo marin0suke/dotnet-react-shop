@@ -46,7 +46,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             localStorage.setItem("token", authUser.token); // persist auth token
         } catch (error) {
             console.log("Error during login", error);
-            //optionally handle error state or dispolay message
+            throw error;
         }
     };
 
