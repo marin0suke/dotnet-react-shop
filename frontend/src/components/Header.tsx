@@ -27,8 +27,8 @@ const Header: React.FC = () => {
                 <Button color="inherit" component={LinkBehaviour} to="/cart">Cart</Button>
                 {user ? (
                     <>
-                        <Button color="inherit" component={LinkBehaviour} to="/profile">Profile</Button>
-                        <Button color="inherit" onClick={handleLogout}>Logout</Button>
+                       <Button color="inherit" component={LinkBehaviour} to="/profile">Profile</Button>
+                       <Button color="inherit" onClick={handleLogout}>Logout</Button>
                     </>
                 ) : (
                     <>
