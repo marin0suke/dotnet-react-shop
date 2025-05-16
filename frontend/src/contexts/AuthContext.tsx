@@ -55,15 +55,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         localStorage.removeItem("token");
     };
 
-    const register = async (name: string, email: string, password: string) => {
+    const register = async (userName: string, email: string, password: string) => {
         try {
-            const response = await api.post('/auth/register', { name, email, password });
+            const response = await api.post('/auth/register', { userName, email, password });
             const authUser: AuthUser = response.data;
             setUser(authUser);
             localStorage.setItem("token", authUser.token);
         } catch (error) {
             console.error("Error during registration:", error);
-            // rego error handling to add
+            throw error;
         }
     };
 

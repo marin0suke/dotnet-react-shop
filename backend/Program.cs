@@ -72,6 +72,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>(); 
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddTransient<AdminUserSeeder>();
 
 // builder.Services.AddEndpointsApiExplorer(); // do i need these?
 // builder.Services.AddSwaggerGen();
@@ -88,7 +89,10 @@ using (var scope = app.Services.CreateScope()) // good for dev but remove in pro
     db.Database.Migrate(); // applies any pending migrations to db. 
 
     await DotnetReactShop.Infrastructure.DbInitializer.SeedRolesAsync(services); // seed roles.
-
+    
+    // Add admin user seeder
+    var adminSeeder = services.GetRequiredService<AdminUserSeeder>();
+    await adminSeeder.SeedAdminUserAsync();
 } // this migrates the databse on startup - optional for development. 
 
 if (app.Environment.IsDevelopment())

@@ -101,7 +101,7 @@ const ProfilePage: React.FC = () => {
                             </Typography>
                             <Stack spacing={2}>
                                 <Typography variant="body1">
-                                    <strong>Name:</strong> {user.name}
+                                    <strong>Username:</strong> {user.userName}
                                 </Typography>
                                 <Typography variant="body1">
                                     <strong>Email:</strong> {user.email}

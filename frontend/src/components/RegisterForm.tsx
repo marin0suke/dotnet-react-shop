@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 
 const RegisterForm: React.FC = () => {
-    const [name, setName] = useState("");
+    const [userName, setUserName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState<string | null>(null);
@@ -26,7 +26,7 @@ const RegisterForm: React.FC = () => {
         setError(null);
 
         try {
-            await register(name, email, password);
+            await register(userName, email, password);
             navigate("/products");
         } catch (err: unknown) {
             setError("Registration failed - please try again");
@@ -78,11 +78,11 @@ const RegisterForm: React.FC = () => {
                         <Stack spacing={2}>
                             <TextField
                                 fullWidth
-                                label="Name"
-                                value={name}
-                                onChange={e => setName(e.target.value)}
+                                label="Username"
+                                value={userName}
+                                onChange={e => setUserName(e.target.value)}
                                 required
-                                autoComplete="name"
+                                autoComplete="username"
                             />
                             <TextField
                                 fullWidth
