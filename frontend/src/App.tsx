@@ -6,7 +6,7 @@ import CheckoutPage from './components/CheckoutPage';
 import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
 import ProfilePage from './components/ProfilePage';
-import { ThemeProvider, CssBaseline, createTheme } from '@mui/material';
+import { ThemeProvider, CssBaseline, createTheme, Toolbar } from '@mui/material';
 import Header from './components/Header';
 import { AuthProvider } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
@@ -37,6 +37,7 @@ function App() {
           <div>
             <Header />
             <main>
+              <Toolbar />
               <Routes>
                 <Route path="*" element={<ProductList />} />
                 <Route path='/products' element={<ProductList />} />
