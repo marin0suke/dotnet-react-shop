@@ -5,7 +5,8 @@ import api from '../api';
 
 export interface AuthContextType { // defines type interface for the context (what is included in the component)
     user: AuthUser | null;
-    login: (email: string, password: string) => Promise<void>; //
+    isLoading: boolean;
+    login: (email: string, password: string) => Promise<AuthUser>; //
     logout: () => void;
     register: (name: string, email: string, password: string) => Promise<void>;
 }
@@ -18,11 +19,16 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [user, setUser] = useState<AuthUser | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => { // rehydrate user on initial load
         const loadUser = async () => {
+            setIsLoading(true);
             const token = localStorage.getItem("token");
-            if (!token) return;
+            if (!token) {
+                setIsLoading(false);
+                return;
+            }
 
             try {
                 const response = await api.get("/auth/me", {
@@ -33,17 +39,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             } catch (error) {
                 console.error("Error loading user:", error);
                 localStorage.removeItem("token"); // optional clear invalid token
+            } finally {
+                setIsLoading(false);
             }
         };
         loadUser();
     }, [])
 
-    const login = async (email: string, password: string) => {
+    const login = async (email: string, password: string): Promise<AuthUser> => {
         try {
             const response = await api.post('/auth/login', { email, password });
             const authUser: AuthUser = response.data;
             setUser(authUser);
             localStorage.setItem("token", authUser.token); // persist auth token
+            return authUser;
         } catch (error) {
             console.log("Error during login", error);
             throw error;
@@ -69,6 +78,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const value: AuthContextType = { // ensure shape of data matches expected type. the state, and functions. 
         user, 
+        isLoading,
         login, 
         logout,
         register,

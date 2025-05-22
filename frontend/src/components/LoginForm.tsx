@@ -22,7 +22,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ redirectTo = "/products" }) => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
-    const { login } = useAuth();
+    const { login, user } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -31,14 +31,15 @@ const LoginForm: React.FC<LoginFormProps> = ({ redirectTo = "/products" }) => {
         setIsLoading(true);
 
         try {
-            await login(email, password);
-            navigate(redirectTo);
-        } catch (err: any) {
-            if (err.response?.status === 401) {
-                setError("Invalid email or password");
+            const loggedInUser = await login(email, password);
+            // After login, check if the user is admin and redirect accordingly
+            if (loggedInUser.roles?.includes('Admin')) {
+                navigate('/admin/dashboard');
             } else {
-                setError("Something went wrong. Please try again");
-            } 
+                navigate("/products");
+            }
+        } catch (err: unknown) {
+            setError("Login failed - please check your credentials");
         } finally {
             setIsLoading(false);
         }

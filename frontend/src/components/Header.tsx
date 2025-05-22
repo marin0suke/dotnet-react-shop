@@ -1,10 +1,13 @@
-import { AppBar, Button, Toolbar, Typography, Box, Menu, MenuItem, IconButton, Link, Badge } from "@mui/material"
+import { AppBar, Button, Toolbar, Typography, Box, Menu, MenuItem, IconButton, Link, Badge, Avatar, Divider, ListItemIcon } from "@mui/material"
 import LinkBehaviour from "./LinkBehaviour";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import PersonIcon from '@mui/icons-material/Person';
+import SettingsIcon from '@mui/icons-material/Settings';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { useCart } from "../contexts/CartContext";
 import { CartItem } from "../types/CartItem";
 
@@ -13,7 +16,8 @@ const Header: React.FC = () => {
     const { cart } = useCart();
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const isAdmin = user?.roles?.includes('Admin');
+    const [avatarMenuAnchor, setAvatarMenuAnchor] = useState<null | HTMLElement>(null);
+    const isAdmin = user?.roles?.includes('Admin') ?? false;
 
     const handleLogout = () => {
         logout();
@@ -33,6 +37,14 @@ const Header: React.FC = () => {
         navigate(path);
     };
 
+    const handleAvatarMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+        setAvatarMenuAnchor(event.currentTarget);
+    };
+
+    const handleAvatarMenuClose = () => {
+        setAvatarMenuAnchor(null);
+    };
+
     const cartItemsCount = cart.reduce((total: number, item: CartItem) => total + item.quantity, 0);
 
     return (
@@ -45,43 +57,24 @@ const Header: React.FC = () => {
                         fontFamily: '"Caveat", cursive', 
                         fontSize: '2.2rem', 
                         letterSpacing: '0.05em', 
-                        fontWeight: 400 
+                        fontWeight: 400, 
+                        flexShrink: 0
                     }}
                 >
                     Vitamin & Co
                 </Typography>
-                {user && (
-                    <Typography variant="body1" sx={{ ml: 2 }}>
-                        Welcome{user.userName ? `, ${user.userName}` : '!'}
-                    </Typography>
-                )}
-                <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', gap: 2 }}>
+                <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', gap: 3 }}>
                     {isAdmin ? (
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                            <IconButton
-                                color="inherit"
-                                onClick={handleMenuOpen}
-                                size="large"
-                                sx={{ mr: 1 }}
-                            >
-                                <DashboardIcon />
-                            </IconButton>
+                        <>
+                            <Button color="inherit" component={LinkBehaviour} to="/admin/dashboard">Dashboard</Button>
                             <Button color="inherit" component={LinkBehaviour} to="/admin/catalogue">Catalogue</Button>
-                            <Menu
-                                anchorEl={anchorEl}
-                                open={Boolean(anchorEl)}
-                                onClose={handleMenuClose}
-                            >
-                                <MenuItem onClick={() => handleMenuClick('/admin/dashboard')}>Dashboard</MenuItem>
-                                <MenuItem onClick={() => handleMenuClick('/admin/catalogue')}>Catalogue</MenuItem>
-                                <MenuItem onClick={() => handleMenuClick('/admin/orders')}>Orders</MenuItem>
-                                <MenuItem onClick={() => handleMenuClick('/admin/users')}>Users</MenuItem>
-                                <MenuItem onClick={() => handleMenuClick('/admin/settings')}>Settings</MenuItem>
-                            </Menu>
-                        </Box>
+                            <Button color="inherit" component={LinkBehaviour} to="/admin/orders">Orders</Button>
+                            <Button color="inherit" component={LinkBehaviour} to="/admin/users">Users</Button>
+                            <Button color="inherit" component={LinkBehaviour} to="/admin/settings">Settings</Button>
+                        </>
                     ) : (
                         <>
-                            <Button color="inherit" component={LinkBehaviour} to="/products">Products</Button>
+                            <Button color="inherit" component={LinkBehaviour} to="/products">Product List</Button>
                             <IconButton 
                                 color="inherit" 
                                 component={LinkBehaviour} 
@@ -106,8 +99,39 @@ const Header: React.FC = () => {
                 </Box>
                 {user ? (
                     <>
-                       <Button color="inherit" component={LinkBehaviour} to="/profile">Profile</Button>
-                       <Button color="inherit" onClick={handleLogout}>Logout</Button>
+                        <IconButton onClick={handleAvatarMenuOpen} sx={{ ml: 2 }}>
+                            <Avatar sx={{ width: 36, height: 36 }}>
+                                <PersonIcon />
+                            </Avatar>
+                        </IconButton>
+                        <Menu
+                            anchorEl={avatarMenuAnchor}
+                            open={Boolean(avatarMenuAnchor)}
+                            onClose={handleAvatarMenuClose}
+                            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                        >
+                            <Box sx={{ px: 2, py: 1, display: 'flex', alignItems: 'center', gap: 1 }}>
+                                <PersonIcon fontSize="large" />
+                                <Box>
+                                    <Typography variant="subtitle1" fontWeight={600}>{user.userName || user.email}</Typography>
+                                    <Typography variant="body2" color="text.secondary">({isAdmin ? 'Admin' : 'User'})</Typography>
+                                </Box>
+                            </Box>
+                            <Divider sx={{ my: 1 }} />
+                            <MenuItem onClick={() => { handleAvatarMenuClose(); navigate('/profile'); }}>
+                                <ListItemIcon><PersonIcon fontSize="small" /></ListItemIcon>
+                                Profile
+                            </MenuItem>
+                            <MenuItem onClick={() => { handleAvatarMenuClose(); navigate('/settings'); }}>
+                                <ListItemIcon><SettingsIcon fontSize="small" /></ListItemIcon>
+                                Settings
+                            </MenuItem>
+                            <MenuItem onClick={() => { handleAvatarMenuClose(); handleLogout(); }}>
+                                <ListItemIcon><LogoutIcon fontSize="small" /></ListItemIcon>
+                                Logout
+                            </MenuItem>
+                        </Menu>
                     </>
                 ) : (
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>

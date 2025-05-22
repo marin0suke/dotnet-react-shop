@@ -1,5 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { CircularProgress } from '@mui/material';
 
 interface ProtectedRouteProps {
     children: React.ReactNode;
@@ -7,7 +8,11 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requireAdmin = false }) => {
-    const { user } = useAuth();
+    const { user, isLoading } = useAuth();
+
+    if (isLoading) {
+        return <CircularProgress />;
+    }
 
     if (!user) {
         return <Navigate to="/login" />;

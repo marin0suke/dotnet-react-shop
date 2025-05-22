@@ -19,16 +19,6 @@ const CheckoutPage = () => {
 
     const [orderSubmitted, setOrderSubmitted] = useState(false); 
 
-    if (!user) {
-        return (
-            <Container sx={{ mt: 4}}>
-                <Typography variant="h4">Checkout</Typography>
-                <Typography variant="body1">You must be logged in to proceed with checkout.</Typography>
-                <LoginForm redirectTo="/checkout" />
-            </Container>
-        );
-    }
-
     // handle changes to the shipping form inputs:
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setShippingInfo({
