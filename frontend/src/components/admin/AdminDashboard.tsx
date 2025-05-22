@@ -1,16 +1,14 @@
-import { Typography, Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
-const AdminDashboard: React.FC = () => {
-    return (
-        <Box sx={{ p: 3, mt: 8 }}>
-            <Typography variant="h4" gutterBottom>
-                Admin Dashboard
-            </Typography>
-            <Typography variant="body1">
-                Welcome to the admin dashboard. This is where you can manage your store.
-            </Typography>
-        </Box>
-    );
+const AdminDashboard = () => {
+  return (
+    <Box p={4}>
+      <Typography variant="h4">Admin Dashboard</Typography>
+      <Typography color="text.secondary">
+        Overview of admin tools, insights, and quick links.
+      </Typography>
+    </Box>
+  );
 };
 
 export default AdminDashboard; 

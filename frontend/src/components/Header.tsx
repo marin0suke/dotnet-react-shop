@@ -70,7 +70,7 @@ const Header: React.FC = () => {
                             <Button color="inherit" component={LinkBehaviour} to="/admin/catalogue">Catalogue</Button>
                             <Button color="inherit" component={LinkBehaviour} to="/admin/orders">Orders</Button>
                             <Button color="inherit" component={LinkBehaviour} to="/admin/users">Users</Button>
-                            <Button color="inherit" component={LinkBehaviour} to="/admin/settings">Settings</Button>
+                            <Button color="inherit" component={LinkBehaviour} to="/admin/campaigns">Campaigns</Button>
                         </>
                     ) : (
                         <>

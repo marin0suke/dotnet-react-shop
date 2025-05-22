@@ -12,7 +12,11 @@ import { AuthProvider } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminDashboard from './components/admin/AdminDashboard';
-import AdminCatalogue from './components/admin/AdminCatalogue';
+import CataloguePage from './components/admin/CataloguePage';
+import OrdersPage from './components/admin/OrdersPage';
+import BusinessInsightsPage from './components/admin/BusinessInsightsPage';
+import CampaignsPage from './components/admin/CampaignsPage';
+import RetailerListPage from './components/admin/RetailerListPage';
 
 const theme = createTheme({
   palette: {
@@ -58,24 +62,30 @@ function App() {
                 }/>
                 <Route path='/admin/catalogue' element={
                   <ProtectedRoute requireAdmin>
-                    <AdminCatalogue />
+                    <CataloguePage />
                   </ProtectedRoute>
                 }/>
                 <Route path='/admin/orders' element={
                   <ProtectedRoute requireAdmin>
-                    <div>Orders Management (Coming Soon)</div>
+                    <OrdersPage />
+                  </ProtectedRoute>
+                }/>
+                <Route path='/admin/insights' element={
+                  <ProtectedRoute requireAdmin>
+                    <BusinessInsightsPage />
+                  </ProtectedRoute>
+                }/>
+                <Route path='/admin/campaigns' element={
+                  <ProtectedRoute requireAdmin>
+                    <CampaignsPage />
                   </ProtectedRoute>
                 }/>
                 <Route path='/admin/users' element={
                   <ProtectedRoute requireAdmin>
-                    <div>User Management (Coming Soon)</div>
+                    <RetailerListPage />
                   </ProtectedRoute>
                 }/>
-                <Route path='/admin/settings' element={
-                  <ProtectedRoute requireAdmin>
-                    <div>Settings (Coming Soon)</div>
-                  </ProtectedRoute>
-                }/>
+              
               </Routes>
             </main>
           </div>

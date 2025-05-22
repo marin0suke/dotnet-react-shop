@@ -13,16 +13,13 @@ import {
     Stack
 } from '@mui/material';
 
-interface LoginFormProps {
-    redirectTo?: string;
-}
 
-const LoginForm: React.FC<LoginFormProps> = ({ redirectTo = "/products" }) => { 
+const LoginForm: React.FC<> = () => { 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
-    const { login, user } = useAuth();
+    const { login } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
