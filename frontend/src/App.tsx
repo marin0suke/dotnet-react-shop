@@ -17,6 +17,7 @@ import OrdersPage from './components/admin/OrdersPage';
 import BusinessInsightsPage from './components/admin/BusinessInsightsPage';
 import CampaignsPage from './components/admin/CampaignsPage';
 import RetailerListPage from './components/admin/RetailerListPage';
+import HomePage from './components/HomePage';
 
 const theme = createTheme({
   palette: {
@@ -39,54 +40,55 @@ function App() {
             <main>
               <Toolbar />
               <Routes>
-                <Route path="*" element={<ProductList />} />
-                <Route path='/products' element={<ProductList />} />
-                <Route path='/products/:id' element={<ProductPage />} />
-                <Route path='/cart' element={<CartDisplay />} />
-                <Route path='/checkout' element={
+                <Route path="/" element={<HomePage />} />
+                <Route path="/products" element={<ProductList />} />
+                <Route path="/products/:id" element={<ProductPage />} />
+                <Route path="/cart" element={<CartDisplay />} />
+                <Route path="/checkout" element={
                   <ProtectedRoute>
                     <CheckoutPage />
                   </ProtectedRoute>
                 } />
-                <Route path='/login' element={<LoginForm />}/>
-                <Route path='/register' element={<RegisterForm />}/>
-                <Route path='/profile' element={
+                <Route path="/login" element={<LoginForm />}/>
+                <Route path="/register" element={<RegisterForm />}/>
+                <Route path="/profile" element={
                   <ProtectedRoute>
                     <ProfilePage />
                   </ProtectedRoute>
                 }/>
                 {/* Admin Routes */}
-                <Route path='/admin/dashboard' element={
+                <Route path="/admin/dashboard" element={
                   <ProtectedRoute requireAdmin>
                     <AdminDashboard />
                   </ProtectedRoute>
                 }/>
-                <Route path='/admin/catalogue' element={
+                <Route path="/admin/catalogue" element={
                   <ProtectedRoute requireAdmin>
                     <CataloguePage />
                   </ProtectedRoute>
                 }/>
-                <Route path='/admin/orders' element={
+                <Route path="/admin/orders" element={
                   <ProtectedRoute requireAdmin>
                     <OrdersPage />
                   </ProtectedRoute>
                 }/>
-                <Route path='/admin/insights' element={
+                <Route path="/admin/insights" element={
                   <ProtectedRoute requireAdmin>
                     <BusinessInsightsPage />
                   </ProtectedRoute>
                 }/>
-                <Route path='/admin/campaigns' element={
+                <Route path="/admin/campaigns" element={
                   <ProtectedRoute requireAdmin>
                     <CampaignsPage />
                   </ProtectedRoute>
                 }/>
-                <Route path='/admin/users' element={
+                <Route path="/admin/users" element={
                   <ProtectedRoute requireAdmin>
                     <RetailerListPage />
                   </ProtectedRoute>
                 }/>
-              
+                {/* Fallback: guests see HomePage, logged-in users see ProductList */}
+                <Route path="*" element={<HomePage />} />
               </Routes>
             </main>
           </div>

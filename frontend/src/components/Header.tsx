@@ -1,15 +1,15 @@
 import { AppBar, Button, Toolbar, Typography, Box, Menu, MenuItem, IconButton, Link, Badge, Avatar, Divider, ListItemIcon } from "@mui/material"
 import LinkBehaviour from "./LinkBehaviour";
 import { useAuth } from "../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
 import { useState } from "react";
-import DashboardIcon from '@mui/icons-material/Dashboard';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PersonIcon from '@mui/icons-material/Person';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useCart } from "../contexts/CartContext";
 import { CartItem } from "../types/CartItem";
+import thegoodvitamincoLogo from '../assets/thegoodvitaminco-logo.jpg';
 
 const Header: React.FC = () => {
     const { user, logout } = useAuth();
@@ -49,20 +49,12 @@ const Header: React.FC = () => {
 
     return (
         <AppBar position="fixed" sx={{ backgroundColor: 'white', color: 'black' }}>
-            <Toolbar>
-                <Typography 
-                    variant="h6" 
-                    sx={{ 
-                        color: 'black', 
-                        fontFamily: '"Caveat", cursive', 
-                        fontSize: '2.2rem', 
-                        letterSpacing: '0.05em', 
-                        fontWeight: 400, 
-                        flexShrink: 0
-                    }}
-                >
-                    Vitamin & Co
-                </Typography>
+            <Toolbar sx={{ minHeight: 112 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', ml: { xs: 2, sm: 3 }, px: 2 }}>
+                  <RouterLink to="/" style={{ display: 'block' }}>
+                    <img src={thegoodvitamincoLogo} alt="The Good Vitamin Co logo" style={{ width: 140, height: 'auto', display: 'block', cursor: 'pointer' }} />
+                  </RouterLink>
+                </Box>
                 <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', gap: 3 }}>
                     {isAdmin ? (
                         <>
