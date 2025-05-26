@@ -32,7 +32,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 </Button>
                 <Button
                     variant="contained"
-                    color="secondary"
+                    color="primary"
                     onClick={() => addToCart(product.id, 1)}
                 >
                     Add To Cart

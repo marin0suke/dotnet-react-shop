@@ -1,13 +1,11 @@
 import React from 'react';
 import { Box, Button, Container, Typography, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { Link as RouterLink } from 'react-router-dom';
 import productImg from '../assets/good-vita-d-image.png';
 
-// Google Fonts via CSS import
-const playfair = 'Playfair Display', nunito = 'Nunito';
 
 const HeroSection = styled(Box)(({ theme }) => ({
-  background: '#FFF8F1',
   padding: theme.spacing(8, 0, 6, 0),
   display: 'flex',
   flexDirection: 'column',
@@ -16,7 +14,6 @@ const HeroSection = styled(Box)(({ theme }) => ({
 }));
 
 const ProductCard = styled(Paper)(({ theme }) => ({
-  background: '#fff',
   borderRadius: 24,
   boxShadow: '0 4px 24px 0 rgba(0,0,0,0.06)',
   padding: theme.spacing(4),
@@ -27,19 +24,17 @@ const ProductCard = styled(Paper)(({ theme }) => ({
 }));
 
 const HomePage = () => (
-  <Box sx={{ background: '#FFF8F1', minHeight: '100vh', fontFamily: nunito }}>
-    {/* Google Fonts */}
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+  <Box sx={{ minHeight: '100vh' }}>
     <HeroSection>
-      <Container maxWidth="md" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 6 }}>
+      <Container maxWidth="lg" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 6 }}>
         <Box sx={{ flex: 1, minWidth: 300 }}>
-          <Typography variant="h2" sx={{ fontFamily: playfair, fontWeight: 700, color: '#222', mb: 2, fontSize: { xs: 36, md: 54 } }}>
+          <Typography variant="h2" sx={{ fontWeight: 700, color: '#222', mb: 2, fontSize: { xs: 36, md: 54 } }}>
             Discover the Good Fibre Difference
           </Typography>
-          <Typography variant="h5" sx={{ fontFamily: nunito, color: '#444', mb: 4, fontWeight: 400 }}>
+          <Typography variant="body1" sx={{ color: '#444', mb: 4, fontWeight: 400, fontSize: { xs: 20, md: 24 } }}>
             The Good Vitamin Co brings you delicious, no-added-sugar fibre soft-chews for everyday wellness. Perfect for your customers who want healthy, natural, and vegan-friendly supplements.
           </Typography>
-          <Button variant="contained" color="primary" size="large" sx={{ borderRadius: 8, fontWeight: 700, fontFamily: nunito, fontSize: 18, boxShadow: '0 2px 8px 0 rgba(0,0,0,0.08)' }}>
+          <Button variant="contained" color="primary" size="large" sx={{ borderRadius: 8, fontWeight: 700, fontSize: 18, boxShadow: '0 2px 8px 0 rgba(0,0,0,0.08)' }}>
             Sign Up as a Retailer
           </Button>
         </Box>

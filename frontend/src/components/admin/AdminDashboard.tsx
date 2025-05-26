@@ -5,15 +5,16 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import GroupIcon from '@mui/icons-material/Group';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import { Link as RouterLink } from 'react-router-dom';
-
-const adminAccent = '#1976d2'; // Muted blue for admin
-const adminBg = '#f4f6fa'; // Muted light background
-const adminCardBg = '#fff';
-const adminCardShadow = '0 2px 12px 0 rgba(25, 118, 210, 0.08)';
+import { useTheme } from '@mui/material/styles';
 
 const AdminDashboard = () => {
+  const theme = useTheme();
+  const adminAccent = theme.palette.primary.main;
+  const adminCardBg = '#fff';
+  const adminCardShadow = '0 2px 12px 0 rgba(42, 62, 89, 0.08)'; // navy shadow
+
   return (
-    <Box sx={{ background: adminBg, minHeight: '100vh', py: 4, fontFamily: 'Montserrat, Roboto, sans-serif' }}>
+    <Box sx={{ minHeight: '100vh', py: 4 }}>
       <Container maxWidth="lg">
         <Typography variant="h4" gutterBottom sx={{ fontWeight: 700, color: adminAccent, letterSpacing: 1 }}>
           Admin Dashboard
@@ -27,8 +28,6 @@ const AdminDashboard = () => {
               height: '100%',
               display: 'flex',
               flexDirection: 'column',
-              background: adminCardBg,
-              borderRadius: 3,
               boxShadow: adminCardShadow,
               border: `1.5px solid ${adminAccent}22`,
               transition: 'box-shadow 0.2s, border 0.2s',
@@ -41,7 +40,7 @@ const AdminDashboard = () => {
                   View and manage product listings.
                 </Typography>
               </CardContent>
-              <Button component={RouterLink} to="/admin/catalogue" variant="contained" sx={{ m: 2, mt: 0, background: adminAccent, color: '#fff', borderRadius: 2, fontWeight: 600 }}>
+              <Button component={RouterLink} to="/admin/catalogue" variant="contained" sx={{ m: 2, mt: 0, color: '#fff', fontWeight: 600, background: adminAccent, '&:hover': { background: adminAccent } }}>
                 GO TO CATALOGUE
               </Button>
             </Card>
@@ -51,8 +50,6 @@ const AdminDashboard = () => {
               height: '100%',
               display: 'flex',
               flexDirection: 'column',
-              background: adminCardBg,
-              borderRadius: 3,
               boxShadow: adminCardShadow,
               border: `1.5px solid ${adminAccent}22`,
               transition: 'box-shadow 0.2s, border 0.2s',
@@ -65,7 +62,7 @@ const AdminDashboard = () => {
                   Fulfil and track customer orders.
                 </Typography>
               </CardContent>
-              <Button component={RouterLink} to="/admin/orders" variant="contained" sx={{ m: 2, mt: 0, background: adminAccent, color: '#fff', borderRadius: 2, fontWeight: 600 }}>
+              <Button component={RouterLink} to="/admin/orders" variant="contained" sx={{ m: 2, mt: 0, color: '#fff', fontWeight: 600, background: adminAccent, '&:hover': { background: adminAccent } }}>
                 GO TO ORDERS
               </Button>
             </Card>
@@ -75,8 +72,6 @@ const AdminDashboard = () => {
               height: '100%',
               display: 'flex',
               flexDirection: 'column',
-              background: adminCardBg,
-              borderRadius: 3,
               boxShadow: adminCardShadow,
               border: `1.5px solid ${adminAccent}22`,
               transition: 'box-shadow 0.2s, border 0.2s',
@@ -89,7 +84,7 @@ const AdminDashboard = () => {
                   View retailer accounts and admin roles.
                 </Typography>
               </CardContent>
-              <Button component={RouterLink} to="/admin/users" variant="contained" sx={{ m: 2, mt: 0, background: adminAccent, color: '#fff', borderRadius: 2, fontWeight: 600 }}>
+              <Button component={RouterLink} to="/admin/users" variant="contained" sx={{ m: 2, mt: 0, color: '#fff', fontWeight: 600, background: adminAccent, '&:hover': { background: adminAccent } }}>
                 GO TO USERS
               </Button>
             </Card>
@@ -99,8 +94,6 @@ const AdminDashboard = () => {
               height: '100%',
               display: 'flex',
               flexDirection: 'column',
-              background: adminCardBg,
-              borderRadius: 3,
               boxShadow: adminCardShadow,
               border: `1.5px solid ${adminAccent}22`,
               transition: 'box-shadow 0.2s, border 0.2s',
@@ -113,7 +106,7 @@ const AdminDashboard = () => {
                   Launch and track promotions.
                 </Typography>
               </CardContent>
-              <Button component={RouterLink} to="/admin/campaigns" variant="contained" sx={{ m: 2, mt: 0, background: adminAccent, color: '#fff', borderRadius: 2, fontWeight: 600 }}>
+              <Button component={RouterLink} to="/admin/campaigns" variant="contained" sx={{ m: 2, mt: 0, color: '#fff', fontWeight: 600, background: adminAccent, '&:hover': { background: adminAccent } }}>
                 GO TO CAMPAIGNS
               </Button>
             </Card>

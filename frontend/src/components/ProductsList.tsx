@@ -27,9 +27,9 @@ const ProductList = () => {
 
 
     return (
-        <Container>
+        <Container maxWidth="lg" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Typography variant="h4">Products</Typography>
-            <Grid container spacing={2} columns={{ xs: 12, sm: 6, md: 4 }}>
+            <Grid container spacing={2} justifyContent="center">
                 {products.map(product => (
                     <Grid 
                         key={product.id} 
