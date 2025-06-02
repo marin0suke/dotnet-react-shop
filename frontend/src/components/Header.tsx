@@ -17,7 +17,7 @@ const Header: React.FC = () => {
     const { user, logout } = useAuth();
     const { cart } = useCart();
     const navigate = useNavigate();
-    const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [avatarMenuAnchor, setAvatarMenuAnchor] = useState<null | HTMLElement>(null);
     const [productMenuAnchor, setProductMenuAnchor] = useState<null | HTMLElement>(null);
     const isAdmin = user?.roles?.includes('Admin') ?? false;
@@ -25,6 +25,19 @@ const Header: React.FC = () => {
     const handleLogout = () => {
         logout();
         navigate('/');
+    };
+
+    const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleMenuClick = (path: string) => {
+        handleMenuClose();
+        navigate(path);
     };
 
     const handleAvatarMenuOpen = (event: React.MouseEvent<HTMLElement>) => {

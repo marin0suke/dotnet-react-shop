@@ -24,26 +24,42 @@ namespace DotnetReactShop.Data
                 new Product
                 {
                     Id = 1,
-                    Name = "Sample Product A",
-                    Description = "This is the first sample product.",
-                    Price = 9.99m,
-                    ImageUrl = "https://via.placeholder.com/150"
+                    Name = "Good Biotin Gummies: Skin, Hair & Nails",
+                    Description = "Support your beauty from the inside out with our Good Biotin Gummies. Specially crafted to help promote stronger hair, healthier skin, and resilient nails, these delicious gummies are an easy addition to your daily routine. Enjoy a tasty way to glow!",
+                    Price = 17.99m,
+                    ImageUrl = "./assets/products/Biotin1_1000x.webp"
                 },
                 new Product
                 {
                     Id = 2,
-                    Name = "Sample Product B",
-                    Description = "This is the second sample product.",
+                    Name = "Apple Cider Vinegar Gummies - Detoxify & Weight Management",
+                    Description = "Experience the benefits of apple cider vinegar in a delicious, convenient gummy. These gummies help support natural detoxification, curb cravings, and promote healthy weight management without the harsh taste of liquid vinegar.",
                     Price = 14.99m,
-                    ImageUrl = "https://via.placeholder.com/150"
+                    ImageUrl = "./assets/products/ACV110_1000x.webp"
                 },
                 new Product
                 {
                     Id = 3,
-                    Name = "Sample Product C",
-                    Description = "This is the third sample product.",
-                    Price = 19.99m,
-                    ImageUrl = "https://via.placeholder.com/150"
+                    Name = "Good Hyaluronic Acid - Vegan Collagen Gummies",
+                    Description = "Nourish your skin and joints with our Good Hyaluronic Acid Vegan Collagen Gummies. Packed with hyaluronic acid and plant-based collagen builders, these gummies help maintain skin hydration and support healthy joints, giving you a youthful, radiant glow from within.",
+                    Price = 9.99m,
+                    ImageUrl = "./assets/products/hyaluronicacid_700x.webp"
+                },
+                  new Product
+                {
+                    Id = 4,
+                    Name = "Good Vita-B12 Energy Boost Gummies",
+                    Description = "Need a boost? Our Good Vita-B12 Energy Gummies deliver a potent source of vitamin B12 to support natural energy production and mental clarity. Say goodbye to sluggishness and hello to steady, vibrant energy—no caffeine crash!",
+                    Price = 15.99m,
+                    ImageUrl = "./assets/products/B121_1000x.webp"
+                },
+                  new Product
+                {
+                    Id = 5,
+                    Name = "Kids Good Fibre Vitamin Supplements Gummies - Digestive Health",
+                    Description = "Keep your little ones’ digestion on track with our Kids Good Fibre Vitamin Gummies. Formulated with natural fiber and essential vitamins, these tasty gummies promote healthy digestion and gut health, making it easier than ever to support your child’s well-being.",
+                    Price = 12.99m,
+                    ImageUrl = "./assets/products/kidsfibre_700x.webp"
                 }
             );
 
