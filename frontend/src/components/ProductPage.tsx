@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom"
 import api from "../api";
-import { Product } from "./ProductsList";
+import { Product } from "./ProductList";
 
 
 const ProductPage = () => {
