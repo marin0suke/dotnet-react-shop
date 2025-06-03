@@ -13,18 +13,19 @@ namespace backend.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "ProductName",
-                table: "OrderItems");
-
-            migrationBuilder.InsertData(
+            migrationBuilder.UpdateData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[,]
-                {
-                    { "seed-retailer-1", 0, "603d7e3f-3912-4105-b319-e04ac69c1f99", "retailer1@example.com", true, false, null, "RETAILER1@EXAMPLE.COM", "RETAILER1@EXAMPLE.COM", "AQAAAAIAAYagAAAAEJzne6R6WQLWVB0ll14CVB7u28ytdudTFdxcjpGhXfbF8DkhhGM8USSqwlkBmH28kQ==", null, false, "411691b0-a99e-4324-a9c1-74d5b8420bef", false, "retailer1@example.com" },
-                    { "seed-retailer-2", 0, "31af38b4-d1e3-43f9-99e0-ebb870e200af", "retailer2@example.com", true, false, null, "RETAILER2@EXAMPLE.COM", "RETAILER2@EXAMPLE.COM", "AQAAAAIAAYagAAAAENV2CPoC9ywG4wHfHdXkZH3mxOt3+6nep5asr5V3OjBA2w4pOcVQB89ctNjXZ9KIYg==", null, false, "5428c25b-0fcf-46b2-886a-af4c9801f17e", false, "retailer2@example.com" }
-                });
+                keyColumn: "Id",
+                keyValue: "seed-retailer-1",
+                columns: new[] { "ConcurrencyStamp", "PasswordHash", "SecurityStamp" },
+                values: new object[] { "df865388-3f5a-4579-8699-f388fb6fabf9", "AQAAAAIAAYagAAAAELJBdt/C9XGZ5ySfHkTsgimEoAQ3ktUz7lST3rp6bMjBBCckP/JuOrQtxir/wiPtKA==", "c2721054-1f93-45f4-b48b-ddc15aef7754" });
+
+            migrationBuilder.UpdateData(
+                table: "AspNetUsers",
+                keyColumn: "Id",
+                keyValue: "seed-retailer-2",
+                columns: new[] { "ConcurrencyStamp", "PasswordHash", "SecurityStamp" },
+                values: new object[] { "d3c9efa0-4912-47f5-b501-d68c2c86a2fc", "AQAAAAIAAYagAAAAEEKFBNpzPRwDXEx78cF2wNtsrAvaAbcPh5wJGj/cATztN2g+VjvgFPKuoCU7DuTg2w==", "5f5ff085-3b3e-4b1d-9da9-1715c66397d9" });
 
             migrationBuilder.InsertData(
                 table: "Orders",
@@ -122,22 +123,19 @@ namespace backend.Migrations
                 keyColumn: "Id",
                 keyValue: 203);
 
-            migrationBuilder.DeleteData(
+            migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
-                keyValue: "seed-retailer-1");
+                keyValue: "seed-retailer-1",
+                columns: new[] { "ConcurrencyStamp", "PasswordHash", "SecurityStamp" },
+                values: new object[] { "9cf45f13-f74a-4afc-b4c8-28620893a6c8", "AQAAAAIAAYagAAAAEEX66w1WyvnVJMGV7X2eKYnkHX0RlzbQ9AQiy+JyuXwYLnGMu6eBleZ6bKgVkLHl3w==", "b9354237-32de-4611-b73e-b4a6125cdc16" });
 
-            migrationBuilder.DeleteData(
+            migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
-                keyValue: "seed-retailer-2");
-
-            migrationBuilder.AddColumn<string>(
-                name: "ProductName",
-                table: "OrderItems",
-                type: "TEXT",
-                nullable: false,
-                defaultValue: "");
+                keyValue: "seed-retailer-2",
+                columns: new[] { "ConcurrencyStamp", "PasswordHash", "SecurityStamp" },
+                values: new object[] { "45c532be-0003-49ae-91ed-2a7349e56e62", "AQAAAAIAAYagAAAAEBJXo140IaSuc2MkT+m/11WQLtRYzhCVVu+R9S9+Blmkabuu22utkntQTqZwRhnPxg==", "eaa97cdc-db0a-4896-a0b7-af498f0946cf" });
         }
     }
 }

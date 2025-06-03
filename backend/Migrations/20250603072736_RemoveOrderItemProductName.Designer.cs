@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace backend.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250603071849_POC_SeedRetailersAndOrders")]
-    partial class POC_SeedRetailersAndOrders
+    [Migration("20250603072736_RemoveOrderItemProductName")]
+    partial class RemoveOrderItemProductName
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -88,15 +88,15 @@ namespace backend.Migrations
                         {
                             Id = "seed-retailer-1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "603d7e3f-3912-4105-b319-e04ac69c1f99",
+                            ConcurrencyStamp = "9cf45f13-f74a-4afc-b4c8-28620893a6c8",
                             Email = "retailer1@example.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "RETAILER1@EXAMPLE.COM",
                             NormalizedUserName = "RETAILER1@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJzne6R6WQLWVB0ll14CVB7u28ytdudTFdxcjpGhXfbF8DkhhGM8USSqwlkBmH28kQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEX66w1WyvnVJMGV7X2eKYnkHX0RlzbQ9AQiy+JyuXwYLnGMu6eBleZ6bKgVkLHl3w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "411691b0-a99e-4324-a9c1-74d5b8420bef",
+                            SecurityStamp = "b9354237-32de-4611-b73e-b4a6125cdc16",
                             TwoFactorEnabled = false,
                             UserName = "retailer1@example.com"
                         },
@@ -104,15 +104,15 @@ namespace backend.Migrations
                         {
                             Id = "seed-retailer-2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "31af38b4-d1e3-43f9-99e0-ebb870e200af",
+                            ConcurrencyStamp = "45c532be-0003-49ae-91ed-2a7349e56e62",
                             Email = "retailer2@example.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "RETAILER2@EXAMPLE.COM",
                             NormalizedUserName = "RETAILER2@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAENV2CPoC9ywG4wHfHdXkZH3mxOt3+6nep5asr5V3OjBA2w4pOcVQB89ctNjXZ9KIYg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBJXo140IaSuc2MkT+m/11WQLtRYzhCVVu+R9S9+Blmkabuu22utkntQTqZwRhnPxg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5428c25b-0fcf-46b2-886a-af4c9801f17e",
+                            SecurityStamp = "eaa97cdc-db0a-4896-a0b7-af498f0946cf",
                             TwoFactorEnabled = false,
                             UserName = "retailer2@example.com"
                         });
@@ -190,56 +190,6 @@ namespace backend.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Orders");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 200,
-                            OrderDate = new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ShippingAddress = "123 Main St",
-                            ShippingCity = "Brisbane",
-                            ShippingCountry = "Australia",
-                            ShippingName = "Retailer One (Wholesale)",
-                            ShippingPostalCode = "4000",
-                            Total = 0m,
-                            UserId = "seed-retailer-1"
-                        },
-                        new
-                        {
-                            Id = 201,
-                            OrderDate = new DateTime(2025, 6, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ShippingAddress = "123 Main St",
-                            ShippingCity = "Brisbane",
-                            ShippingCountry = "Australia",
-                            ShippingName = "Retailer One (Wholesale)",
-                            ShippingPostalCode = "4000",
-                            Total = 0m,
-                            UserId = "seed-retailer-1"
-                        },
-                        new
-                        {
-                            Id = 202,
-                            OrderDate = new DateTime(2025, 6, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ShippingAddress = "456 Oak Ave",
-                            ShippingCity = "Gold Coast",
-                            ShippingCountry = "Australia",
-                            ShippingName = "Retailer Two (Wholesale)",
-                            ShippingPostalCode = "4217",
-                            Total = 0m,
-                            UserId = "seed-retailer-2"
-                        },
-                        new
-                        {
-                            Id = 203,
-                            OrderDate = new DateTime(2025, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ShippingAddress = "456 Oak Ave",
-                            ShippingCity = "Gold Coast",
-                            ShippingCountry = "Australia",
-                            ShippingName = "Retailer Two (Wholesale)",
-                            ShippingPostalCode = "4217",
-                            Total = 0m,
-                            UserId = "seed-retailer-2"
-                        });
                 });
 
             modelBuilder.Entity("DotnetReactShop.Models.OrderItem", b =>
@@ -265,80 +215,6 @@ namespace backend.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("OrderItems");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 2000,
-                            OrderId = 200,
-                            ProductId = 1,
-                            Quantity = 50,
-                            UnitPrice = 17.99m
-                        },
-                        new
-                        {
-                            Id = 2001,
-                            OrderId = 200,
-                            ProductId = 2,
-                            Quantity = 40,
-                            UnitPrice = 14.99m
-                        },
-                        new
-                        {
-                            Id = 2002,
-                            OrderId = 201,
-                            ProductId = 3,
-                            Quantity = 100,
-                            UnitPrice = 9.99m
-                        },
-                        new
-                        {
-                            Id = 2003,
-                            OrderId = 201,
-                            ProductId = 4,
-                            Quantity = 60,
-                            UnitPrice = 15.99m
-                        },
-                        new
-                        {
-                            Id = 2004,
-                            OrderId = 202,
-                            ProductId = 2,
-                            Quantity = 30,
-                            UnitPrice = 14.99m
-                        },
-                        new
-                        {
-                            Id = 2005,
-                            OrderId = 202,
-                            ProductId = 5,
-                            Quantity = 20,
-                            UnitPrice = 12.99m
-                        },
-                        new
-                        {
-                            Id = 2006,
-                            OrderId = 202,
-                            ProductId = 1,
-                            Quantity = 15,
-                            UnitPrice = 17.99m
-                        },
-                        new
-                        {
-                            Id = 2007,
-                            OrderId = 203,
-                            ProductId = 5,
-                            Quantity = 200,
-                            UnitPrice = 12.99m
-                        },
-                        new
-                        {
-                            Id = 2008,
-                            OrderId = 203,
-                            ProductId = 1,
-                            Quantity = 80,
-                            UnitPrice = 17.99m
-                        });
                 });
 
             modelBuilder.Entity("DotnetReactShop.Models.Product", b =>
