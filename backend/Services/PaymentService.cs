@@ -1,5 +1,7 @@
 
 
+using DotnetReactShop.Data;
+using Microsoft.EntityFrameworkCore;
 using Stripe.Checkout;
 
 namespace DotnetReactShop.Services
@@ -7,15 +9,25 @@ namespace DotnetReactShop.Services
     public class PaymentService : IPaymentService
     {
         private readonly IConfiguration _configuration;
+        private readonly AppDbContext _dbContext;
 
-        public PaymentService(IConfiguration configuration)
+        public PaymentService(IConfiguration configuration, AppDbContext dbContext)
         {
             _configuration = configuration;
+            _dbContext = dbContext;
         }
 
         public async Task<string> CreateCheckoutSessionAsync(CheckoutSessionCreateModelDto model)
         {
             Stripe.StripeConfiguration.ApiKey = _configuration.GetValue<string>("Stripe:SecretKey");
+
+            var product = await _dbContext.Products
+                .Where(p => p.Id == model.ProductId)
+                .Select(p => new { p.Name })
+                .FirstOrDefaultAsync();
+
+            if (product is null)
+                throw new InvalidOperationException($"Product ID {model.ProductId} not found.");
 
             var options = new SessionCreateOptions // manual mapping? 
             {

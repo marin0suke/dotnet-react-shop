@@ -12,8 +12,7 @@ namespace DotnetReactShop.Models
         [JsonIgnore]
         public Order? Order { get; set; } // foreign key to the order aggregate .. ?
 
-        public int ProductId { get; set; } // snapshot data
-        public string ProductName { get; set; }
+        public int ProductId { get; set; }
         public decimal UnitPrice { get; set; }
         public int Quantity { get; set; }
 
