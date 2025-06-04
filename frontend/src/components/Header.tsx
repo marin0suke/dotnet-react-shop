@@ -57,24 +57,29 @@ const Header: React.FC = () => {
                         <IconButton
                             color="inherit"
                             onClick={handleMainMenuOpen}
-                            sx={{ mr: 1 }}
+                            sx={{
+                                fontSize: 16,
+                                fontWeight: 600,
+                                color: 'text.primary',
+                                '&:focus': {
+                                  outline: 'none',          // Remove the default blue outline
+                                },
+                                '&:hover': {
+                                  backgroundColor: '#f0f0f0'
+                                },
+                                borderRadius: 1,
+                                px: 2, // horizontal padding
+                                py: 1  // vertical padding
+                              }}
                         >
-                            <MenuIcon />
+                            Dashboard
                         </IconButton>
                         <MuiMenu
                             anchorEl={mainMenuAnchor}
                             open={Boolean(mainMenuAnchor)}
                             onClose={handleMainMenuClose}
                         >
-                        { isAdmin ? [
-                                <MenuItem
-                                    key={'dashboard'}  
-                                    component={LinkBehaviour} 
-                                    to='admin/dashboard' 
-                                    onClick={handleMainMenuClose}
-                                >
-                                    Dashboard
-                                </MenuItem>,
+                        { isAdmin ? [                                                              
                                 <MenuItem
                                     key={'catalogue'}
                                     component={LinkBehaviour} 
@@ -82,6 +87,14 @@ const Header: React.FC = () => {
                                     onClick={handleMainMenuClose}
                                 >
                                     Catalogue
+                                </MenuItem>,
+                                <MenuItem
+                                    key={'orders'}
+                                    component={LinkBehaviour} 
+                                    to='admin/orders' 
+                                    onClick={handleMainMenuClose}
+                                >
+                                    Orders
                                 </MenuItem>,
                                 <MenuItem
                                     key={'retailer-list'}
@@ -98,6 +111,14 @@ const Header: React.FC = () => {
                                     onClick={handleMainMenuClose}
                                 >
                                     Business Insights
+                                </MenuItem>,
+                                <MenuItem
+                                    key={'campaigns'}
+                                    component={LinkBehaviour} 
+                                    to='admin/campaigns' 
+                                    onClick={handleMainMenuClose}
+                                >
+                                    Campaigns
                                 </MenuItem>
                         ] : (
                             <MenuItem 
@@ -150,25 +171,28 @@ const Header: React.FC = () => {
                                             Logout
                                         </MenuItem>
                                     </Menu>
-                                    <IconButton 
-                                        color="inherit" 
-                                        component={LinkBehaviour} 
-                                        to="/cart"
-                                        size="large"
-                                    >
-                                        <Badge 
-                                            badgeContent={cartItemsCount} 
-                                            color="primary"
-                                            sx={{
-                                                '& .MuiBadge-badge': {
-                                                    backgroundColor: 'primary.main',
-                                                    color: 'white'
-                                                }
-                                            }}
-                                        >
-                                            <ShoppingCartIcon />
-                                        </Badge>
-                                    </IconButton>
+                                    { !isAdmin &&
+                                           <IconButton 
+                                           color="inherit" 
+                                           component={LinkBehaviour} 
+                                           to="/cart"
+                                           size="large"
+                                       >
+                                           <Badge 
+                                               badgeContent={cartItemsCount} 
+                                               color="primary"
+                                               sx={{
+                                                   '& .MuiBadge-badge': {
+                                                       backgroundColor: 'primary.main',
+                                                       color: 'white'
+                                                   }
+                                               }}
+                                           >
+                                               <ShoppingCartIcon />
+                                           </Badge>
+                                       </IconButton>
+                                    }
+                                 
                                 </Box>
                             </>
                         ) : (
