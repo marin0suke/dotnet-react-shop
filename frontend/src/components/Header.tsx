@@ -17,26 +17,25 @@ const Header: React.FC = () => {
     const { user, logout } = useAuth();
     const { cart } = useCart();
     const navigate = useNavigate();
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [mainMenuAnchor, setMainMenuAnchor] = useState<null | HTMLElement>(null);
     const [avatarMenuAnchor, setAvatarMenuAnchor] = useState<null | HTMLElement>(null);
-    const [productMenuAnchor, setProductMenuAnchor] = useState<null | HTMLElement>(null);
-    const isAdmin = user?.roles?.includes('Admin') ?? false;
+    const isAdmin = user?.roles?.includes('Admin') ?? false; 
 
     const handleLogout = () => {
         logout();
         navigate('/');
     };
 
-    const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
+    const handleMainMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+        setMainMenuAnchor(event.currentTarget);
     };
 
-    const handleMenuClose = () => {
-        setAnchorEl(null);
+    const handleMainMenuClose = () => {
+        setMainMenuAnchor(null);
     };
 
     const handleMenuClick = (path: string) => {
-        handleMenuClose();
+        handleMainMenuClose();
         navigate(path);
     };
 
@@ -48,13 +47,6 @@ const Header: React.FC = () => {
         setAvatarMenuAnchor(null);
     };
 
-    const handleProductMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-        setProductMenuAnchor(event.currentTarget);
-    };
-
-    const handleProductMenuClose = () => {
-        setProductMenuAnchor(null);
-    };
 
     const cartItemsCount = cart.reduce((total: number, item: CartItem) => total + item.quantity, 0);
 
@@ -64,17 +56,58 @@ const Header: React.FC = () => {
                     <Box sx={{ flex: 1, display: 'flex', alignItems: 'center' }}>
                         <IconButton
                             color="inherit"
-                            onClick={handleProductMenuOpen}
+                            onClick={handleMainMenuOpen}
                             sx={{ mr: 1 }}
                         >
                             <MenuIcon />
                         </IconButton>
                         <MuiMenu
-                            anchorEl={productMenuAnchor}
-                            open={Boolean(productMenuAnchor)}
-                            onClose={handleProductMenuClose}
+                            anchorEl={mainMenuAnchor}
+                            open={Boolean(mainMenuAnchor)}
+                            onClose={handleMainMenuClose}
                         >
-                            <MenuItem component={LinkBehaviour} to="/products" onClick={handleProductMenuClose}>Product List</MenuItem>
+                        { isAdmin ? [
+                                <MenuItem
+                                    key={'dashboard'}  
+                                    component={LinkBehaviour} 
+                                    to='admin/dashboard' 
+                                    onClick={handleMainMenuClose}
+                                >
+                                    Dashboard
+                                </MenuItem>,
+                                <MenuItem
+                                    key={'catalogue'}
+                                    component={LinkBehaviour} 
+                                    to='admin/catalogue' 
+                                    onClick={handleMainMenuClose}
+                                >
+                                    Catalogue
+                                </MenuItem>,
+                                <MenuItem
+                                    key={'retailer-list'}
+                                    component={LinkBehaviour} 
+                                    to='admin/users' 
+                                    onClick={handleMainMenuClose}
+                                >
+                                    Retailer List
+                                </MenuItem>,
+                                <MenuItem
+                                    key={'insights'}
+                                    component={LinkBehaviour} 
+                                    to='admin/insights' 
+                                    onClick={handleMainMenuClose}
+                                >
+                                    Business Insights
+                                </MenuItem>
+                        ] : (
+                            <MenuItem 
+                                component={LinkBehaviour} 
+                                to="/products" 
+                                onClick={handleMainMenuClose}
+                            >
+                                Product List
+                            </MenuItem>
+                        )}
                         </MuiMenu>
                     </Box>
                     <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
