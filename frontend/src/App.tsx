@@ -12,7 +12,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminDashboard from './components/admin/AdminDashboard';
-import CataloguePage from './components/admin/CataloguePage';
+import CataloguePage from './components/admin/AdminCatalogue';
 import OrdersPage from './components/admin/OrdersPage';
 import BusinessInsightsPage from './components/admin/BusinessInsightsPage';
 import CampaignsPage from './components/admin/CampaignsPage';

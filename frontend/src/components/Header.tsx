@@ -1,4 +1,4 @@
-import { AppBar, Button, Toolbar, Typography, Box, Menu, MenuItem, IconButton, Link, Badge, Divider, ListItemIcon, Container } from "@mui/material"
+import { AppBar, Button, Typography, Box, Menu, MenuItem, IconButton, Link, Badge, Divider, ListItemIcon, Container } from "@mui/material"
 import LinkBehaviour from "./LinkBehaviour";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate, Link as RouterLink } from "react-router-dom";
@@ -10,7 +10,6 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useCart } from "../contexts/CartContext";
 import { CartItem } from "../types/CartItem";
 import headerLogo from '../assets/logo_transparent.png';
-import MenuIcon from '@mui/icons-material/Menu';
 import { Menu as MuiMenu } from '@mui/material';
 
 const Header: React.FC = () => {
