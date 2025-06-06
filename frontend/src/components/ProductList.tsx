@@ -5,7 +5,7 @@ import { Box, Container, Typography } from "@mui/material";
 import ProductCard from "./ProductCard";
 import { Product } from "../types/Product";
 
-const ProductsList: React.FC = () => {
+const ProductList: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading]   = useState(true);
   const [error, setError]       = useState("");
@@ -57,4 +57,4 @@ const ProductsList: React.FC = () => {
   );
 };
 
-export default ProductsList;
+export default ProductList;

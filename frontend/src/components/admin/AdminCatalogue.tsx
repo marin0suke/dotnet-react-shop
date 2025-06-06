@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Grid, Card, Typography, Button, TextField, Container } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { Product } from '../../types/Product'; 
+import { Product } from '../../types/Product';
 import api from '../../api';
-
 
 const AdminCatalogue: React.FC = () => {
   const theme = useTheme();
@@ -25,7 +24,6 @@ const AdminCatalogue: React.FC = () => {
       .then((res) => setProducts(res.data))
       .catch(err => setError(err.message))
       .finally(() => setLoading(false));
-
   }, []);
 
   const handleEdit = (product: Product) => {
@@ -49,7 +47,6 @@ const AdminCatalogue: React.FC = () => {
   };
 
   const handleSave = (id: number) => {
-    // For POC, log the updated product
     console.log('Save product:', { id, ...formData });
     // TODO: Connect this to your backend to update the product
     setEditProductId(null);
@@ -60,22 +57,30 @@ const AdminCatalogue: React.FC = () => {
       <Typography variant="h4" gutterBottom sx={{ fontWeight: 700, color: theme.palette.primary.main }}>
         Admin Catalogue
       </Typography>
-      <Grid container direction="column" spacing={2}>
-        {products?.length ? (
-          products.map(product => (
+
+      {loading ? (
+        <Typography>Loading...</Typography>
+      ) : error ? (
+        <Typography color="error">Error: {error}</Typography>
+      ) : products.length ? (
+        <Grid container direction="column" spacing={2}>
+          {products.map(product => (
             <Grid item key={product.id}>
               <Card
                 sx={{
                   display: 'flex',
-                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
                   boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
                   border: `1px solid ${theme.palette.primary.main}22`,
                   borderRadius: 2,
-                  p: 2,
+                  p: 3,
+                  mb: 2,
                 }}
               >
                 {editProductId === product.id ? (
-                  <Box>
+                  // Edit mode
+                  <Box sx={{ width: '100%' }}>
                     <Grid container spacing={2} alignItems="center">
                       <Grid item xs={12} md={3}>
                         <TextField
@@ -122,38 +127,45 @@ const AdminCatalogue: React.FC = () => {
                     </Box>
                   </Box>
                 ) : (
-                  <Grid container spacing={2} alignItems="center">
-                    <Grid item xs={12} md={3}>
-                      <Typography variant="h6" fontWeight={600}>{product.name}</Typography>
-                    </Grid>
-                    <Grid item xs={12} md={3}>
-                      <img
-                        src={product.imageUrl}
-                        alt={product.name}
-                        width="100"
-                        style={{ borderRadius: 4 }}
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={2}>
-                      <Typography color="text.secondary">Price: ${product.price}</Typography>
-                    </Grid>
-                    <Grid item xs={12} md={3}>
-                      <Typography color="text.secondary">{product.description}</Typography>
-                    </Grid>
-                    <Grid item xs={12} md={1}>
-                      <Button variant="outlined" size="small" onClick={() => handleEdit(product)}>
-                        Edit
-                      </Button>
-                    </Grid>
-                  </Grid>
+                  // View mode
+                  <Box sx={{ display: 'flex', width: '100%', alignItems: 'center' }}>
+                    {/* Left side: Text content */}
+                    <Box sx={{ flex: 1, pr: 2 }}>
+                      <Typography variant="subtitle1" fontWeight={600}>{product.name}</Typography>
+                      <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+                        {product.description}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+                        Price: ${product.price}
+                      </Typography>
+                      <Box sx={{ mt: 1 }}>
+                        <Button variant="outlined" size="small" onClick={() => handleEdit(product)}>
+                          Edit
+                        </Button>
+                      </Box>
+                    </Box>
+
+                    {/* Right side: Image */}
+                    <Box
+                      component="img"
+                      src={product.imageUrl}
+                      alt={product.name}
+                      sx={{
+                        width: 80,
+                        height: 80,
+                        objectFit: 'cover',
+                        borderRadius: 2,
+                      }}
+                    />
+                  </Box>
                 )}
               </Card>
             </Grid>
-          ))
-        ) : (
-          <Typography>No products found.</Typography>
-        )}
-      </Grid>
+          ))}
+        </Grid>
+      ) : (
+        <Typography>No products found.</Typography>
+      )}
     </Container>
   );
 };
