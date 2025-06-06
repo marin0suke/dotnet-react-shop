@@ -51,5 +51,12 @@ namespace DotnetReactShop.Repositories
                 await _context.SaveChangesAsync(); // commits deletion to db.
             }
         }
+
+        public async Task<IEnumerable<Order>> GetAllOrdersAsync()
+        {
+            return await _context.Orders
+                .Include(o => o.OrderItems) // POC bare min.
+                .ToListAsync(); 
+        }
     }
 }

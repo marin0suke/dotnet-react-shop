@@ -71,6 +71,11 @@ namespace DotnetReactShop.Services
         {
             await _orderRepository.DeleteOrderAsync(orderId);
         }
+
+        public async Task<IEnumerable<Order>> GetAllOrdersAsync()
+        {
+            return await _orderRepository.GetAllOrdersAsync(); // just delegate to order repo.
+        }
     }
 }
 

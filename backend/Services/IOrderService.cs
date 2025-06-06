@@ -10,6 +10,8 @@ namespace DotnetReactShop.Services
 
         Task<OrderDto> UpdateOrderAsync(int orderId, UpdateOrderDto updatedOrderDto, string userId); 
         Task DeleteOrderAsync(int orderId); 
+        Task<IEnumerable<Order>> GetAllOrdersAsync(); // admin view Orders.
+
     }
 }
 

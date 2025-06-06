@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { AuthUser } from '../types/AuthUser.ts';
-import api from '../api';
+import api from '../api/index.ts';
 
 
 export interface AuthContextType { // defines type interface for the context (what is included in the component)

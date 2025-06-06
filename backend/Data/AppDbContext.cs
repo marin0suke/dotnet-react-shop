@@ -208,4 +208,3 @@ namespace DotnetReactShop.Data
     }
 }
 
-// adding seed data - override the OnModelCreating method to seed data.

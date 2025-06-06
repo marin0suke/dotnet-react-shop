@@ -69,6 +69,20 @@ namespace DotnetReactShop.Controllers
             return Ok(orders);
         }
 
+        [HttpGet("all-orders")]
+        public async Task<IActionResult> GetAllOrders()
+        {
+            try
+            {
+                var allOrders = await _orderService.GetAllOrdersAsync();
+                return Ok(allOrders);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error fetching orders: {ex.Message}");
+            }
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(int id)
         {
