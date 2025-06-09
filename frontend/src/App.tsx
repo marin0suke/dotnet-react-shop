@@ -16,7 +16,7 @@ import CataloguePage from './components/admin/AdminCatalogue';
 import OrdersPage from './components/admin/AdminOrders';
 import BusinessInsightsPage from './components/admin/BusinessInsightsPage';
 import CampaignsPage from './components/admin/CampaignsPage';
-import RetailerListPage from './components/admin/RetailerListPage';
+import RetailerListPage from './components/admin/AdminRetailerList';
 import HomePage from './components/HomePage';
 import theme from './theme';
 
